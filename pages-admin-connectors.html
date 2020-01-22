@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <!-- Favicon icon -->
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
+  <title>ComplyHub - Connectors</title>
+  <!--Toaster Popup message CSS -->
+  <link href="assets/node_modules/toast-master/css/jquery.toast.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link href="assets/css/style.min.css" rel="stylesheet">
+  <!-- Spinner CSS -->
+  <link rel="stylesheet" href="assets/css/circle.css">
+  <link rel="stylesheet" href="assets/css/spinner.css">
+  <!-- page css -->
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body class="skin-default fixed-layout">
+  <!-- ============================================================== -->
+  <!-- Preloader - style you can find in spinners.css -->
+  <!-- ============================================================== -->
+  <div class="preloader">
+    <div class="loader">
+      <div class="loader__figure"></div>
+      <p class="loader__label">ComplyHub</p>
+    </div>
+  </div>
+  <!-- ============================================================== -->
+  <!-- Main wrapper - style you can find in pages.scss -->
+  <!-- ============================================================== -->
+  <div id="main-wrapper">
+
+    <!-- ============================================================== -->
+    <!-- Spinner                                                        -->
+    <!-- ============================================================== -->
+    <div id="fadeMe" style="display:none">
+      <div class="spinner"></div>
+      <div class="spinner-text" id="spinner-text"></div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- Topbar header - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <header class="topbar">
+      <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+        <!-- ============================================================== -->
+        <!-- Logo -->
+        <!-- ============================================================== -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="index.html">
+            <!-- Logo icon -->
+            <b>
+              <span> <i class="wi wi-sunset ml-2"></i></span>
+            </b>
+            <!--End Logo icon -->
+          </a>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Logo -->
+        <!-- ============================================================== -->
+        <div class="navbar-collapse">
+          <!-- ============================================================== -->
+          <!-- toggle and nav items -->
+          <!-- ============================================================== -->
+          <ul class="navbar-nav mr-auto">
+            <li class="d-none d-md-block d-lg-block">
+              <a href="javascript:void(0)" class="p-l-15">
+                <h4 class="ml-2 mb-4 text-white">ComplyHub</h4>
+              </a>
+            </li>
+          </ul>
+          <!-- ============================================================== -->
+          <!-- User profile and search -->
+          <!-- ============================================================== -->
+          <ul class="navbar-nav my-lg-0">
+            <!-- ============================================================== -->
+            <!-- User Profile -->
+            <!-- ============================================================== -->
+            <li class="nav-item dropdown u-pro">
+              <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="hidden-md-down" id="firstName"></span> </a>
+              <div class="dropdown-menu dropdown-menu-right animated flipInY">
+                <!-- text-->
+                <a href="pages-admin-users.html" class="dropdown-item admin"><i class="ti-world"></i> Users</a>
+                <!-- text-->
+                <a href="pages-admin-connectors.html" class="dropdown-item admin"><i class="ti-wand"></i> Connectors</a>
+                <!-- text-->
+                <div class="dropdown-divider"></div>
+                <!-- text-->
+                <a href="login.html" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
+                <!-- text-->
+              </div>
+            </li>
+            <!-- ============================================================== -->
+            <!-- End User Profile -->
+            <!-- ============================================================== -->
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <!-- ============================================================== -->
+    <!-- End Topbar header -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Left Sidebar - style you can find in sidebar.scss  -->
+    <!-- ============================================================== -->
+    <div class="side-mini-panel">
+      <ul class="mini-nav">
+        <li>
+          <a href="index.html"><i class="icon-home"></i></a>
+        </li>
+        <li><a href="pages-configurations.html"><i class="icon-grid"></i></a>
+        </li>
+        <li><a href="pages-requests.html"><i class="icon-notebook"></i></a>
+        </li>
+        <li><a href="pages-new-request.html"><i class="icon-plus"></i></a>
+        </li>
+      </ul>
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Page wrapper  -->
+    <!-- ============================================================== -->
+    <div class="page-wrapper">
+      <!-- ============================================================== -->
+      <!-- Container fluid  -->
+      <!-- ============================================================== -->
+      <div class="container-fluid mt-5">
+        <!-- ============================================================== -->
+        <!-- Start Page Content -->
+        <!-- ============================================================== -->
+        <!-- Row -->
+        <div class="row">
+          <div class="col-12">
+            <button type="button" class="btn btn-tertiary mb-3" id="btnRefresh"><i class="ti-reload"></i></button>
+            <button type="button" class="btn btn-info mb-3 ml-2" id="btnAdd" data-toggle="modal" data-target="#editModal"><i class="ti-plus"></i> Add</button>
+            <!-- Row -->
+            <div class="row" id="cards">
+            </div>
+            <!-- Row -->
+          </div>
+        </div>
+        <!-- End Row -->
+        <!-- Edit Modal -->
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 id="title" class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form class="modal-body form-horizontal" id="modal-form">
+                <div class="form-group row">
+                  <label for="id" class="control-label col-sm-3 text-right col-form-label">Id:</label>
+                  <div class="col-sm-9">
+                    <input type="text" readonly class="form-control" id="id" name="id" placeholder="<Not Set>">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="name" class="control-label col-sm-3 text-right col-form-label">Name:</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="name" name="name" required placeholder="Enter the connector name">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="logoUrl" class="control-label col-sm-3 text-right col-form-label">Logo Url:</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="logoUrl" name="logoUrl" required placeholder="Enter a url for the connector">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="apiPath" class="control-label col-sm-3 text-right col-form-label">API Path:</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="apiPath" name="apiPath" required placeholder="provider (no forward slash)">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="description" class="control-label col-sm-3 text-right col-form-label">Description:</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="description" name="description" required placeholder="small description about the provider">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="loginparameters-display" class="control-label col-sm-3 text-right col-form-label">Login Parameters:</label>
+                  <div class="col-sm-9">
+                    <pre id="loginparameters-display" name="loginparameters-display" required></pre>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button id="submitButton" type="submit" class="btn btn-primary">Save</button>
+                </div>
+              </form>>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Page Content -->
+        <!-- ============================================================== -->
+      </div>
+      <!-- ============================================================== -->
+      <!-- End Container fluid  -->
+      <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Page wrapper  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- footer -->
+    <!-- ============================================================== -->
+    <footer class="footer">
+      © 2020 ComplyHub
+    </footer>
+    <!-- ============================================================== -->
+    <!-- End footer -->
+    <!-- ============================================================== -->
+  </div>
+  <!-- ============================================================== -->
+  <!-- End Wrapper -->
+  <!-- ============================================================== -->
+  <!-- ============================================================== -->
+  <!-- All Jquery -->
+  <!-- ============================================================== -->
+  <script src="assets/node_modules/jquery/jquery-3.2.1.min.js"></script>
+  <!-- Bootstrap tether Core JavaScript -->
+  <script src="assets/node_modules/popper/popper.min.js"></script>
+  <script src="assets/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <!-- slimscrollbar scrollbar JavaScript -->
+  <script src="assets/js/perfect-scrollbar.jquery.min.js"></script>
+  <!--Wave Effects -->
+  <script src="assets/js/waves.js"></script>
+  <!--Menu sidebar -->
+  <script src="assets/js/sidebarmenu.js"></script>
+  <!--stickey kit -->
+  <script src="assets/node_modules/sticky-kit-master/dist/sticky-kit.min.js"></script>
+  <script src="assets/node_modules/sparkline/jquery.sparkline.min.js"></script>
+  <!-- Popup message jquery -->
+  <script src="assets/node_modules/toast-master/js/jquery.toast.js"></script>
+  <!--Custom JavaScript -->
+  <script src="assets/js/custom.min.js"></script>
+  <!-- JSON Editor -->
+  <script src="assets/js/jquery.json-editor.min.js"></script>
+  <!-- Moment.js -->
+  <script src="assets/js/moment-with-locales.js"></script>
+  <!-- Sweet Alert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+  <!-- JQuery Validate -->
+  <script src="assets/js/jquery-validate/jquery.validate.min.js"></script>
+  <script src="assets/js/jquery-validate/additional-methods.min.js"></script>
+  <!-- Comply Hub -->
+  <script src="assets/js/complyhub.js"></script>
+  <script>
+
+    (async () => {
+      try {
+        let userData = await verifyToken();
+        $("#firstName").html(`${userData.claims.given_name} <i class="fa fa-angle-down"></i>`);
+
+        if (isAdmin()) {
+          // Show Admin items
+          $(".admin").attr("style", "");
+        } else {
+          $(location).attr("href", "index.html");
+        }
+
+        // Enable tooltips
+        $('[data-toggle="tooltip"]').tooltip();
+
+        initModal();
+        await loadCards();
+
+      } catch (error) {
+        console.error('ERROR:', error);
+      }
+    })();
+
+    $("#modal-form").validate({
+      errorClass: "text-danger",
+      successClass: "test-success"
+    });
+
+    async function loadCards() {
+      $("#cards").empty();
+
+      try {
+        var items = await getConnectors();
+        console.log("Connectors:", items);
+
+        $.each(items, (i, item) => {
+
+          // Create card for new item
+          let colDiv = $("<div/>", { class: "col-lg-3 col-md-4" }).appendTo("#cards");
+          let cardDiv = $("<div/>", { class: "card shadow" }).appendTo(colDiv);
+          $("<img/>", { class: "card-img-top img-responsive", src: item.logoUrl, alt: item.provider }).appendTo(cardDiv);
+          let cardBody = $("<div/>", { class: "card-body" }).appendTo(cardDiv);
+          $("<h4/>", { class: "card-title" }).text(item.provider).appendTo(cardBody);
+          $("<p/>", { class: "card-text" }).text(`/${item.apiPath}`).appendTo(cardBody);
+
+          // Edit Button
+          let editButton = $("<a/>", { class: "btn btn-primary edit-item", "data-toggle": "modal", "data-target": "#editModal", href: "#", "data-id": item.id }).html("<i class='ti-pencil mr-1'></i> Edit").appendTo(cardBody);
+          editButton.on("click", (e) => {
+            console.log("Editing", item.id);
+            $("#editModal #title").text("Connector: " + item.provider);
+            $("#editModal #id").val(item.id);
+            $("#editModal #name").val(item.provider);
+            $("#editModal #logoUrl").val(item.logoUrl);
+            $("#editModal #apiPath").val(item.apiPath);
+            $("#editModal #description").val(item.description);
+            new JsonEditor("#loginparameters-display", item.parameters.login);
+
+            $("#editModal #submitButton").text("Save");
+            $("#editModal #submitButton").unbind().on("click", (e) => {
+              e.preventDefault();
+              if (!$("#modal-form").valid()) {
+                showMessage("Missing or invalid fields", true);
+                return;
+              }
+
+              $("#editModal #submitButton").html('<i class="fa fa-circle-notch fa-spin"></i> Saving...')
+
+              console.log("Saving...");
+              const id = $("#editModal #id").val();
+              const name = $("#editModal #name").val();
+              const logoUrl = $("#editModal #logoUrl").val();
+              const path = $("#editModal #apiPath").val();
+              const description = $("#editModal #description").val();
+              const loginParameters = JSON.parse($("#editModal #loginparameters-display").text());
+
+              saveConnector(id, name, logoUrl, path, description, loginParameters).then((result) => {
+                $("#editModal").modal("hide");
+              }).catch((error) => {
+                showMessage(error.responseJSON.message, true);
+              })
+            });
+          });
+
+          // Delete Button
+          let deleteButton = $("<a/>", { class: "btn btn-danger float-right", href: "#" }).html("<i class='ti-trash mr-1'></i>").appendTo(cardBody);
+          deleteButton.on("click", (e) => {
+            swal.fire({
+              title: "Are you sure?",
+              text: "You will not be able to recover this item!",
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, delete it!',
+              showLoaderOnConfirm: true,
+              preConfirm: (login) => {
+                return deleteConnector(item.id)
+                  .then((deleted) => {
+                    console.log("Deleted:", deleted);
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                    showMessage(error.responseJSON.message, true);
+                  });
+              },
+              allowOutsideClick: () => !Swall.isLoading()
+            }).then((result) => {
+              if (result.value) {
+                Swal.fire(
+                  'Deleted!',
+                  'Your item has been deleted.',
+                  'success'
+                )
+                loadCards();
+              }
+            });
+          });
+
+          let updatedParagraph = $("<p/>", { class: "card-text" }).appendTo(cardBody);
+          $("<small/>", { class: "text-muted" }).text("Last updated " + moment(item.updatedAt).fromNow()).appendTo(updatedParagraph);
+        });
+      } catch (error) {
+        console.error(error);
+        showMessage(error, true);
+      }
+    }
+
+    $('#editModal').on('shown.bs.modal', (e) => {
+      $('#editModal #name').trigger('focus');
+    })
+
+    function initModal() {
+      console.log("Initializing modal");
+      $("#editModal #title").text("New Connector");
+      $("#editModal #id").val("");
+      $("#editModal #name").val("");
+      $("#editModal #logoUrl").val("");
+      new JsonEditor("#loginparameters-display", [
+        {
+          "name": "<PARAMETER NAME>",
+          "description": "<Description of parameter>",
+          "type": "<array, string, readonly, or password>",
+          "items": [
+            "Only if type=enum otherwise remove"
+          ]
+        }
+      ]);
+
+      $("#editModal #submitButton").text("Create");
+      $("#editModal #submitButton").unbind().on("click", (e) => {
+        e.preventDefault();
+        if (!$("#modal-form").valid()) {
+          showMessage("Missing or invalid fields", true);
+          return;
+        }
+
+        $("#editModal #submitButton").html('<i class="fa fa-circle-notch fa-spin"></i> Creating...')
+        $("#editModal #submitButton").attr("disabled", true);
+
+        const name = $("#editModal #name").val();
+        const logoUrl = $("#editModal #logoUrl").val();
+        const path = $("#editModal #apiPath").val();
+        const description = $("#editModal #description").val();
+        const loginParameters = JSON.parse($("#editModal #loginparameters-display").text());
+
+        createConnector(name, logoUrl, path, description, loginParameters).then((result) => {
+          $("#editModal").modal("hide");
+          $("#editModal #submitButton").text("Create");
+          $("#editModal #submitButton").attr("disabled", false);
+        }).catch((error) => {
+          $("#editModal #submitButton").text("Create");
+          $("#editModal #submitButton").attr("disabled", false);
+          console.error(error);
+          showMessage(error.responseJSON.message, true);
+        })
+      });
+    }
+
+    $("#btnRefresh").on("click", () => {
+      loadCards();
+    });
+
+    $('#editModal').on('hidden.bs.modal', async () => {
+      await loadCards();
+      initModal();
+    })
+
+  </script>
+</body>
+
+</html>

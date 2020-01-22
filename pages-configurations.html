@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <!-- Favicon icon -->
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
+  <title>ComplyHub - My Configurations</title>
+  <!--Toaster Popup message CSS -->
+  <link href="assets/node_modules/toast-master/css/jquery.toast.css" rel="stylesheet">
+  <!-- JQuery UI -->
+  <link rel="stylesheet" href="assets/js/jquery-ui.min.css">
+  <!-- jsGrid -->
+  <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+  <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+  <!-- Custom CSS -->
+  <link href="assets/css/style.min.css" rel="stylesheet">
+  <!-- Spinner CSS -->
+  <link rel="stylesheet" href="assets/css/circle.css">
+  <link rel="stylesheet" href="assets/css/spinner.css">
+  <style>
+    @media (min-width: 768px) {
+      .modal-xl {
+        width: 90%;
+        max-width: 1200px;
+      }
+    }
+  </style>
+  <!-- page css -->
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body class="skin-default fixed-layout">
+  <!-- ============================================================== -->
+  <!-- Preloader - style you can find in spinners.css -->
+  <!-- ============================================================== -->
+  <div class="preloader">
+    <div class="loader">
+      <div class="loader__figure"></div>
+      <p class="loader__label">ComplyHub</p>
+    </div>
+  </div>
+  <!-- ============================================================== -->
+  <!-- Main wrapper - style you can find in pages.scss -->
+  <!-- ============================================================== -->
+  <div id="main-wrapper">
+
+    <!-- ============================================================== -->
+    <!-- Spinner                                                        -->
+    <!-- ============================================================== -->
+    <div id="fadeMe" style="display:none">
+      <div class="spinner"></div>
+      <div class="spinner-text" id="spinner-text"></div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- Topbar header - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <header class="topbar">
+      <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+        <!-- ============================================================== -->
+        <!-- Logo -->
+        <!-- ============================================================== -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="index.html">
+            <!-- Logo icon -->
+            <b>
+              <span> <i class="wi wi-sunset ml-2"></i></span>
+            </b>
+            <!--End Logo icon -->
+          </a>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Logo -->
+        <!-- ============================================================== -->
+        <div class="navbar-collapse">
+          <!-- ============================================================== -->
+          <!-- toggle and nav items -->
+          <!-- ============================================================== -->
+          <ul class="navbar-nav mr-auto">
+            <li class="d-none d-md-block d-lg-block">
+              <a href="javascript:void(0)" class="p-l-15">
+                <h4 class="ml-2 mb-4 text-white">ComplyHub</h4>
+              </a>
+            </li>
+          </ul>
+          <!-- ============================================================== -->
+          <!-- User profile and search -->
+          <!-- ============================================================== -->
+          <ul class="navbar-nav my-lg-0">
+            <!-- ============================================================== -->
+            <!-- User Profile -->
+            <!-- ============================================================== -->
+            <li class="nav-item dropdown u-pro">
+              <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="hidden-md-down" id="firstName"></span> </a>
+              <div class="dropdown-menu dropdown-menu-right animated flipInY">
+                <!-- text-->
+                <a href="pages-admin-users.html" class="dropdown-item admin"><i class="ti-world"></i> Users</a>
+                <!-- text-->
+                <a href="pages-admin-connectors.html" class="dropdown-item admin"><i class="ti-wand"></i> Connectors</a>
+                <!-- text-->
+                <div class="dropdown-divider"></div>
+                <!-- text-->
+                <a href="login.html" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
+                <!-- text-->
+              </div>
+            </li>
+            <!-- ============================================================== -->
+            <!-- End User Profile -->
+            <!-- ============================================================== -->
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <!-- ============================================================== -->
+    <!-- End Topbar header -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Left Sidebar - style you can find in sidebar.scss  -->
+    <!-- ============================================================== -->
+    <div class="side-mini-panel">
+      <ul class="mini-nav">
+        <li>
+          <a href="index.html"><i class="icon-home"></i></a>
+        </li>
+        <li><a href="pages-configurations.html"><i class="icon-grid"></i></a>
+        </li>
+        <li><a href="pages-requests.html"><i class="icon-notebook"></i></a>
+        </li>
+        <li><a href="pages-new-request.html"><i class="icon-plus"></i></a>
+        </li>
+      </ul>
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- Page wrapper  -->
+    <!-- ============================================================== -->
+    <div class="page-wrapper">
+      <!-- ============================================================== -->
+      <!-- Container fluid  -->
+      <!-- ============================================================== -->
+      <div class="container-fluid mt-4">
+        <!-- ============================================================== -->
+        <!-- Start Page Content -->
+        <!-- ============================================================== -->
+        <h4 class="mb-4 font-weight-bold">Your Configurations</h4>
+        <!-- Row -->
+        <div class="row">
+          <div class="col-12">
+            <button type="button" class="btn btn-secondary mb-3" id="btnRefresh"><i class="ti-reload"></i></button>
+            <button type="button" class="btn btn-info mb-3 ml-2" id="btnAdd" data-toggle="modal" data-target="#connectorsModal"><i class="ti-plus"></i> Add</button>
+            <!-- Row -->
+            <div class="row" id="cards">
+            </div>
+            <div id="jsGrid" class="mt-2"></div>
+            <!-- Row -->
+          </div>
+        </div>
+        <!-- End Row -->
+        <!-- ============================================================== -->
+        <!-- End Page Content -->
+        <!-- ============================================================== -->
+        <!-- Edit Modal -->
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 id="title" class="modal-title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form id="modal-form">
+                  <div class="form-group" style="display:none;">
+                    <label for="id" class="col-form-label">Id:</label>
+                    <input type="text" readonly class="form-control border-dark" id="id" name="id" placeholder="<Not Set>">
+                  </div>
+                  <div class="form-group">
+                    <label for="connector" class="col-form-label font-weight-bold">Connector</label>
+                    <select class="form-control border-dark" id="connector" name="connector" required>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="name" class="col-form-label font-weight-bold">Name</label>
+                    <input type="text" class="form-control border-dark" id="name" name="name" required placeholder="Enter a name for this configuration">
+                    <small>Give a name to this configuration</small>
+                  </div>
+                  <div id="parameters"></div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="submitButton" type="submit" class="btn btn-primary">Save</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Connectors Modal -->
+        <div class="modal fade" id="connectorsModal" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 id="title" class="modal-title">Select a provider</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body row" id="connectors">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ============================================================== -->
+      <!-- End Container fluid  -->
+      <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Page wrapper  -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- footer -->
+    <!-- ============================================================== -->
+    <footer class="footer">
+      © 2020 ComplyHub
+    </footer>
+    <!-- ============================================================== -->
+    <!-- End footer -->
+    <!-- ============================================================== -->
+  </div>
+  <!-- ============================================================== -->
+  <!-- End Wrapper -->
+  <!-- ============================================================== -->
+  <!-- ============================================================== -->
+  <!-- All Jquery -->
+  <!-- ============================================================== -->
+  <script src="assets/node_modules/jquery/jquery-3.2.1.min.js"></script>
+  <!-- Bootstrap tether Core JavaScript -->
+  <script src="assets/node_modules/popper/popper.min.js"></script>
+  <script src="assets/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <!-- slimscrollbar scrollbar JavaScript -->
+  <script src="assets/js/perfect-scrollbar.jquery.min.js"></script>
+  <!--Wave Effects -->
+  <script src="assets/js/waves.js"></script>
+  <!--Menu sidebar -->
+  <script src="assets/js/sidebarmenu.js"></script>
+  <!--stickey kit -->
+  <script src="assets/node_modules/sticky-kit-master/dist/sticky-kit.min.js"></script>
+  <script src="assets/node_modules/sparkline/jquery.sparkline.min.js"></script>
+  <!-- Popup message jquery -->
+  <script src="assets/node_modules/toast-master/js/jquery.toast.js"></script>
+  <!--Custom JavaScript -->
+  <script src="assets/js/custom.min.js"></script>
+  <!-- JSON Editor -->
+  <script src="assets/js/jquery.json-editor.min.js"></script>
+  <!-- Moment.js -->
+  <script src="assets/js/moment-with-locales.js"></script>
+  <!-- Sweet Alert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+  <!-- JQuery Validate -->
+  <script src="assets/js/jquery-validate/jquery.validate.min.js"></script>
+  <script src="assets/js/jquery-validate/additional-methods.min.js"></script>
+  <!-- jsGrid -->
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+  <!-- JQuery UI -->
+  <script src="assets/js/jquery-ui.min.js"></script>
+  <!-- Comply Hub -->
+  <script src="assets/js/complyhub.js"></script>
+  <script>
+
+    var connectors = [];
+
+    //#region Initialization
+
+    (async () => {
+      let userData = await verifyToken();
+      $("#firstName").html(`${userData.claims.given_name} <i class="fa fa-angle-down"></i>`);
+
+      // Set jsgrid defaults
+      jsGrid.setDefaults({ tableClass: "jsgrid-table table table-striped table-hover" });
+
+      if (isAdmin()) {
+        // Show Admin items
+        $(".admin").attr("style", "");
+      } else {
+        $(".admin").attr("style", "display:none");
+      }
+
+      // Enable tooltips
+      $('[data-toggle="tooltip"]').tooltip();
+
+      connectors = await getConnectors();
+
+      initModal();
+      await loadCards();
+    })();
+
+    //#endregion
+
+    //#region Grid
+
+    async function loadCards() {
+      $("#cards").empty();
+
+      try {
+        var configurations = await getConfigurations();
+        console.log("Configurations:", configurations);
+
+        // Get connector logo
+        for await (let configuration of configurations) {
+          let connector = connectors.find(c => c.id === configuration.connectorId); // await getConnector(configuration.connectorId);
+          console.log('Connector:', connector);
+          configuration.logo = connector.logoUrl;
+        }
+
+        // Populate grid
+        $("#jsGrid").jsGrid({
+          width: "100%",
+          height: "100%",
+
+          inserting: false,
+          editing: true,
+          sorting: true,
+          paging: true,
+
+          data: configurations,
+
+          deleteConfirm: function (item) {
+            return "The configuration \"" + item.configurationName + "\" will be removed. Are you sure?";
+          },
+
+          rowClick: function (args) {
+            showDetailsDialog("Edit", args.item);
+          },
+
+          controller: {
+            deleteItem: function (item) {
+              return deleteConfiguration(item.id).then((deleted) => {
+                console.log("Configuration deleted");
+              }).catch((error) => {
+                console.error(error);
+                showMessage(error.responseJSON.message, true);
+              });
+            }
+          },
+
+          fields: [
+            {
+              name: "logo", title: "", type: "image", validate: "required",
+              width: 10,
+              itemTemplate: function (value, item) {
+                if (item.logo) {
+                  return '<img src="' + item.logo + '" "width="42" height="42">';
+                }
+                return '';
+              }
+            },
+            { name: "configurationName", title: "Name", type: "text", validate: "required", width: 300 },
+            { type: "control", editButton: false, width: 10 }
+          ]
+        });
+
+      } catch (error) {
+        console.error(error);
+        showMessage(error, true);
+      }
+    }
+
+    async function loadParametersGrid(parameters) {
+      $("#basicgrid").jsGrid({
+        width: "100%",
+        filtering: false,
+        editing: true,
+        sorting: true,
+        paging: true,
+        inserting: false,
+        heading: true,
+        autoload: true,
+        pageSize: 15,
+        pageButtonCount: 5,
+        loadIndication: true,
+        loadIndicationDelay: 500,
+        loadMessage: "Loading...",
+        loadShading: true,
+        deleteConfirm: "Do you really want to delete this parameter?",
+        data: parameters,
+        controller: {
+          loadData: function (filter) {
+            return $.grep(parameters, function (parameter) {
+              return (!filter.name || parameter.name.indexOf(filter.name) > -1)
+                && (!filter.value || parameter.value.indexOf(filter.value) > -1);
+            });
+          }
+        },
+        noDataContent: "No Parameters",
+        fields: [
+          {
+            name: "name",
+            type: "text",
+            width: 100,
+            editing: false
+          }, {
+            name: "value",
+            type: "text",
+            width: 150
+          }, {
+            type: "control",
+            deleteButton: false
+          }
+        ]
+      });
+    }
+
+    async function loadParameters(connectorId) {
+      return new Promise(async (resolve, reject) => {
+        try {
+          var connector = await getConnector(connectorId);
+          console.log("Selected connector:", connector);
+          resolve(connector.parameters.login);
+        } catch (error) {
+          console.error(error);
+          reject(error);
+        }
+      });
+    }
+
+    //#endregion
+
+    //#region Edit Modal
+
+    async function initModal() {
+      console.log("Initializing modal");
+      $("#editModal #title").text("New Configuration");
+      $("#editModal #id").val("");
+      $("#editModal #name").val("");
+
+      // Connectors list
+      $("#editModal #connector").empty();
+      $("<option/>").text("").appendTo("#editModal #connector"); // Add an empty item
+      $.each(connectors, (i, connector) => {
+        $("<option/>", { value: connector.id }).text(connector.provider).appendTo("#editModal #connector");
+      });
+      $("#editModal #parameters").empty();
+
+      $("#editModal #submitButton").text("Create");
+      $("#editModal #submitButton").unbind().on("click", (e) => {
+        e.preventDefault();
+        if (!$("#modal-form").valid()) {
+          showMessage("Missing or invalid fields", true);
+          return;
+        }
+
+        $("#editModal #submitButton").html('<i class="fa fa-circle-notch fa-spin"></i> Creating...')
+        $("#editModal #submitButton").attr("disabled", true);
+
+        const connectorId = $("#editModal #connector").val();
+        const name = $("#editModal #name").val();
+        const parameters = $("#editModal #basicgrid").jsGrid("option", "data");
+
+        createConfiguration(connectorId, name, parameters).then((result) => {
+          $("#editModal").modal("hide");
+          $("#editModal #submitButton").text("Create");
+          $("#editModal #submitButton").attr("disabled", false);
+        }).catch((error) => {
+          $("#editModal #submitButton").text("Create");
+          $("#editModal #submitButton").attr("disabled", false);
+          console.error(error);
+          showMessage(error.responseJSON.message, true);
+        });
+      });
+    }
+
+    var showDetailsDialog = async function (dialogType, item) {
+      console.log("Editing", item.id);
+      $("#editModal #id").val(item.id);
+      $("#editModal #connector").val(item.connectorId);
+      $("#editModal #name").val(item.configurationName);
+
+      let configuration = await getConfiguration(item.id);
+
+      let connector = connectors.find(c => c.id === configuration.connectorId);
+      $("#editModal #title").text("Configuration: " + item.configurationName + " (" + connector.provider + ")");
+      let connectorParameters = connector.parameters.login;
+      console.log("Connector parameters:", connectorParameters);
+
+      let configurationParameters = configuration.parameters;
+      console.log("Configuration parameters:", configurationParameters);
+
+      for (let connectorParameter of connectorParameters) {
+        let formGroup = $("<div/>", { class: "form-group" }).appendTo("#editModal #parameters");
+        $("<label/>", { for: connectorParameter.name, class: "col-form-label font-weight-bold" }).text(connectorParameter.description).appendTo(formGroup);
+        switch (connectorParameter.type) {
+          case "string":
+            $("<input/>", { type: "text", class: "form-control border-dark", id: connectorParameter.name, name: connectorParameter.name, required: true }).val(configurationParameters.find(cp => cp.name === connectorParameter.name).value).appendTo(formGroup);
+            break;
+          case "password":
+            $("<input/>", { type: "password", class: "form-control border-dark", id: connectorParameter.name, name: connectorParameter.name, required: true }).val(configurationParameters.find(cp => cp.name === connectorParameter.name).value).appendTo(formGroup);
+            break;
+          case "enum":
+            console.log('Current value:', configurationParameters.find(cp => cp.name === connectorParameter.name).value);
+            let select = $("<select/>", { class: "form-control border-dark", id: connectorParameter.name, name: connectorParameter.name, required: true }).appendTo(formGroup);
+            for (item of connectorParameter.items) {
+              $("<option/>", { text: item, value: item, selected: configurationParameters.find(cp => cp.name === connectorParameter.name).value === item }).appendTo(select);
+            }
+            break;
+          default:
+            console.error('Unknown parameter type:', connectorParameter.type);
+            break;
+        }
+        $("<small/>").text(connectorParameter.description).appendTo(formGroup);
+      }
+
+      $("#editModal #submitButton").text("Save");
+      $("#editModal #submitButton").unbind().on("click", (e) => {
+        e.preventDefault();
+        if (!$("#modal-form").valid()) {
+          showMessage("Missing or invalid fields", true);
+          return;
+        }
+
+        $("#editModal #submitButton").html('<i class="fa fa-circle-notch fa-spin"></i> Saving...')
+
+        console.log("Saving...");
+        const id = $("#editModal #id").val();
+        const connectorId = $("#editModal #connector").val();
+        const name = $("#editModal #name").val();
+
+        let parameters = [];
+
+        // Go through each input
+        for (input of $("#editModal #parameters input")) {
+          parameters.push({
+            name: input.name,
+            value: input.value
+          });
+        }
+
+        // Go through each select
+        for (select of $("#editModal #parameters select")) {
+          parameters.push({
+            name: select.name,
+            value: select.value
+          });
+        }
+
+        console.log('Saving config with parameters:', parameters);
+
+        saveConfiguration(id, connectorId, name, parameters).then((result) => {
+          $("#editModal").modal("hide");
+        }).catch((error) => {
+          showMessage(error.responseJSON.message, true);
+        })
+      });
+
+      $("#editModal").modal("show");
+    };
+
+    var createDetailsDialog = async function (connector) {
+      console.log("Creating new connector for:", connector.id);
+      $("#editModal #connector").val(connector.id);
+
+      $("#editModal #title").text("New Configuration (" + connector.provider + ")");
+      let connectorParameters = connector.parameters.login;
+      console.log("Connector parameters:", connectorParameters);
+
+      for (let connectorParameter of connectorParameters) {
+        let formGroup = $("<div/>", { class: "form-group" }).appendTo("#editModal #parameters");
+        $("<label/>", { for: connectorParameter.name, class: "col-form-label font-weight-bold" }).text(connectorParameter.description).appendTo(formGroup);
+        switch (connectorParameter.type) {
+          case "string":
+            $("<input/>", { type: "text", class: "form-control border-dark", id: connectorParameter.name, name: connectorParameter.name, required: true }).appendTo(formGroup);
+            break;
+          case "password":
+            $("<input/>", { type: "password", class: "form-control border-dark", id: connectorParameter.name, name: connectorParameter.name, required: true }).appendTo(formGroup);
+            break;
+          case "enum":
+            let select = $("<select/>", { class: "form-control border-dark", id: connectorParameter.name, name: connectorParameter.name, required: true }).appendTo(formGroup);
+            for (item of connectorParameter.items) {
+              $("<option/>", { text: item, value: item }).appendTo(select);
+            }
+            break;
+          default:
+            console.error('Unknown parameter type:', connectorParameter.type);
+            break;
+        }
+        $("<small/>").text(connectorParameter.description).appendTo(formGroup);
+      }
+
+      $("#editModal #submitButton").text("Create");
+      $("#editModal #submitButton").unbind().on("click", (e) => {
+        e.preventDefault();
+        if (!$("#modal-form").valid()) {
+          showMessage("Missing or invalid fields", true);
+          return;
+        }
+
+        $("#editModal #submitButton").html('<i class="fa fa-circle-notch fa-spin"></i> Creating...')
+
+        console.log("Creating new configuration...");
+        const connectorId = $("#editModal #connector").val();
+        const name = $("#editModal #name").val();
+
+        let parameters = [];
+
+        // Go through each input
+        for (input of $("#editModal #parameters input")) {
+          parameters.push({
+            name: input.name,
+            value: input.value
+          });
+        }
+
+        // Go through each select
+        for (select of $("#editModal #parameters select")) {
+          parameters.push({
+            name: select.name,
+            value: select.value
+          });
+        }
+
+        console.log('Saving config with parameters:', parameters);
+
+        createConfiguration(connectorId, name, parameters).then((result) => {
+          $("#editModal").modal("hide");
+          $("#editModal #submitButton").text("Create");
+          $("#editModal #submitButton").attr("disabled", false);
+        }).catch((error) => {
+          $("#editModal #submitButton").text("Create");
+          $("#editModal #submitButton").attr("disabled", false);
+          console.error(error);
+          showMessage(error.responseJSON.message, true);
+        });
+      });
+
+      $("#editModal").modal("show");
+    };
+
+    $("#modal-form").validate({
+      errorClass: "text-danger",
+      successClass: "test-success"
+    });
+
+    $('#editModal').on('shown.bs.modal', (e) => {
+      $('#editModal #name').trigger('focus');
+    })
+
+    $("#editModal #connector").on("change", () => {
+      var selectedConnectorId = $("#editModal #connector").val();
+      if (selectedConnectorId.length > 0) {
+        loadParameters(selectedConnectorId).then((parameters) => {
+          loadParametersGrid(parameters);
+        });
+      } else {
+        $("#basicgrid").jsGrid("option", "data", []);
+      }
+    });
+
+    $('#editModal').on('hidden.bs.modal', async () => {
+      await loadCards();
+      initModal();
+    });
+
+    //#endregion
+
+    //#region Connectors Modal
+
+    $('#connectorsModal').on('shown.bs.modal', (e) => {
+      $("#connectorsModal #connectors").empty();
+      $.each(connectors, (i, connector) => {
+
+        // Create card for new connector
+        let colDiv = $("<div/>", { class: "col-lg-6 col-md-6 d-flex" }).appendTo("#connectorsModal #connectors");
+        let cardDiv = $("<div/>", { class: "card shadow" }).appendTo(colDiv);
+        let cardHeader = $("<div/>", { class: "card-header bg-white" }).appendTo(cardDiv);
+        $("<img/>", { class: "card-img-top img-responsive", src: connector.logoUrl, alt: connector.provider, style: "max-width: 100px" }).appendTo(cardHeader);
+        let cardBody = $("<div/>", { class: "card-body", style: "padding:1rem" }).appendTo(cardDiv);
+        $("<h6/>", { class: "card-title" }).text(connector.provider).appendTo(cardBody);
+        $("<small/>", { class: "card-text" }).text(connector.description).appendTo(cardBody);
+        //$("<p/>", {}).appendTo(cardBody);
+
+        let cardFooter = $("<div/>", { class: "card-footer", style: "padding:1rem" }).appendTo(cardDiv);
+        let activateButton = $("<a/>", { class: "btn btn-sm btn-warning text-dark edit-item", href: "#" }).text("Activate").appendTo(cardFooter);
+        activateButton.on("click", (e) => {
+          console.log('Activate for:', connector.provider);
+          //Show edit modal with provider
+          $("#connectorsModal").modal('toggle');
+          $("#editModal").modal('toggle');
+          createDetailsDialog(connector);
+        });
+      });
+    });
+
+    //#endregion
+
+    $("#btnRefresh").on("click", () => {
+      loadCards();
+    });
+
+  </script>
+</body>
+
+</html>
