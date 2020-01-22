@@ -1,6 +1,1 @@
-.serverless
-.nyc_output
-coverage
 **/.DS_Store
-
-!web/assets/node_modules
