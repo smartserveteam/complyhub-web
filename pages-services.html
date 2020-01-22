@@ -10,7 +10,7 @@
   <meta name="author" content="">
   <!-- Favicon icon -->
   <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
-  <title>ComplyHub - My Configurations</title>
+  <title>ComplyHub - Services</title>
   <!--Toaster Popup message CSS -->
   <link href="assets/node_modules/toast-master/css/jquery.toast.css" rel="stylesheet">
   <!-- JQuery UI -->
@@ -133,7 +133,7 @@
         <li>
           <a href="index.html"><i class="icon-home"></i></a>
         </li>
-        <li class="selected"><a href="pages-configurations.html"><i class="icon-grid"></i></a>
+        <li class="selected"><a href="pages-services.html"><i class="icon-grid"></i></a>
         </li>
         <li><a href="pages-requests.html"><i class="icon-notebook"></i></a>
         </li>
@@ -155,7 +155,7 @@
         <!-- ============================================================== -->
         <!-- Start Page Content -->
         <!-- ============================================================== -->
-        <h4 class="mb-4 font-weight-bold">Your Configurations</h4>
+        <h4 class="mb-4 font-weight-bold">Your Services</h4>
         <!-- Row -->
         <div class="row">
           <div class="col-12">
@@ -188,15 +188,15 @@
                     <label for="id" class="col-form-label">Id:</label>
                     <input type="text" readonly class="form-control border-dark" id="id" name="id" placeholder="<Not Set>">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" style="display:none;">
                     <label for="connector" class="col-form-label font-weight-bold">Connector</label>
                     <select class="form-control border-dark" id="connector" name="connector" required>
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="name" class="col-form-label font-weight-bold">Name</label>
-                    <input type="text" class="form-control border-dark" id="name" name="name" required placeholder="Enter a name for this configuration">
-                    <small>Give a name to this configuration</small>
+                    <input type="text" class="form-control border-dark" id="name" name="name" required placeholder="Enter a name for this connection">
+                    <small>Give a name to this connection</small>
                   </div>
                   <div id="parameters"></div>
                   <div class="modal-footer">
@@ -306,6 +306,10 @@
 
       initModal();
       await loadCards();
+
+      if ($.urlParam('create') === 'true') {
+        $("#connectorsModal").modal('toggle');
+      }
     })();
 
     //#endregion
@@ -321,7 +325,7 @@
 
         // Get connector logo
         for await (let configuration of configurations) {
-          let connector = connectors.find(c => c.id === configuration.connectorId); // await getConnector(configuration.connectorId);
+          let connector = connectors.find(c => c.id === configuration.connectorId);
           console.log('Connector:', connector);
           configuration.logo = connector.logoUrl;
         }
@@ -443,7 +447,7 @@
 
     async function initModal() {
       console.log("Initializing modal");
-      $("#editModal #title").text("New Configuration");
+      $("#editModal #title").text("New Connection");
       $("#editModal #id").val("");
       $("#editModal #name").val("");
 
@@ -492,7 +496,7 @@
       let configuration = await getConfiguration(item.id);
 
       let connector = connectors.find(c => c.id === configuration.connectorId);
-      $("#editModal #title").text("Configuration: " + item.configurationName + " (" + connector.provider + ")");
+      $("#editModal #title").text("Connection: " + item.configurationName + " (" + connector.provider + ")");
       let connectorParameters = connector.parameters.login;
       console.log("Connector parameters:", connectorParameters);
 
@@ -572,7 +576,7 @@
       console.log("Creating new connector for:", connector.id);
       $("#editModal #connector").val(connector.id);
 
-      $("#editModal #title").text("New Configuration (" + connector.provider + ")");
+      $("#editModal #title").text("New Connection (" + connector.provider + ")");
       let connectorParameters = connector.parameters.login;
       console.log("Connector parameters:", connectorParameters);
 
