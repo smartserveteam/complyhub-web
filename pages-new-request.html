@@ -22,11 +22,13 @@
   <link href="assets/css/style.min.css" rel="stylesheet">
   <!-- Bootstrap Select -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+  <!-- Tippy.js (tooltips) -->
+  <link rel="stylesheet" href="assets/node_modules/tippy.js/dist/tippy.css">
   <!-- Spinner CSS -->
   <link rel="stylesheet" href="assets/css/circle.css">
   <link rel="stylesheet" href="assets/css/spinner.css">
   <!-- Wizard CSS -->
-  <link href="assets/node_modules/wizard/steps.css" rel="stylesheet">
+  <link href="assets/js/wizard/steps.css" rel="stylesheet">
   <style>
     @media (min-width: 768px) {
       .modal-xl {
@@ -137,14 +139,13 @@
     <!-- ============================================================== -->
     <div class="side-mini-panel">
       <ul class="mini-nav">
-        <li>
-          <a href="index.html"><i class="icon-home"></i></a>
+        <li><a href="index.html" data-tippy-content="Home" class="tippy-tooltip"><i class="icon-home"></i></a>
         </li>
-        <li><a href="pages-services.html"><i class="icon-grid"></i></a>
+        <li><a href="pages-services.html" data-tippy-content="Your Services" class="tippy-tooltip"><i class="icon-grid"></i></a>
         </li>
-        <li><a href="pages-requests.html"><i class="icon-notebook"></i></a>
+        <li><a href="pages-requests.html" data-tippy-content="Your Requests" class="tippy-tooltip"><i class="icon-notebook"></i></a>
         </li>
-        <li class="selected"><a href="pages-new-request.html"><i class="icon-plus"></i></a>
+        <li class="selected"><a href="pages-new-request.html" data-tippy-content="Submit a New Request" class="tippy-tooltip"><i class="icon-plus"></i></a>
         </li>
       </ul>
     </div>
@@ -280,6 +281,8 @@
   <script src="assets/js/custom.min.js"></script>
   <!-- JSON Editor -->
   <script src="assets/js/jquery.json-editor.min.js"></script>
+  <!-- Tippy.js (tooltips) -->
+  <script src="assets/node_modules/tippy.js/dist/tippy-bundle.iife.min.js"></script>
   <!-- Moment.js -->
   <script src="assets/js/moment-with-locales.js"></script>
   <!-- Sweet Alert -->
@@ -311,6 +314,10 @@
       } else {
         $(".admin").attr("style", "display:none");
       }
+
+      tippy('.tippy-tooltip', {
+        placement: "right"
+      });
     })();
 
     var form = $(".validation-wizard").show();

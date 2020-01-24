@@ -12,11 +12,13 @@
   <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
   <title>ComplyHub - Users</title>
   <!--Toaster Popup message CSS -->
-  <link href="assets/node_modules/toast-master/css/jquery.toast.css" rel="stylesheet">
+  <link href="assets/node_modules/jquery-toast-plugin/dist/jquery.toast.min.css" rel="stylesheet">
   <!-- Editable CSS -->
   <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
   <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" /> <!-- Custom CSS -->
   <link href="assets/css/style.min.css" rel="stylesheet">
+  <!-- Tippy.js (tooltips) -->
+  <link rel="stylesheet" href="assets/node_modules/tippy.js/dist/tippy.css">
   <!-- Spinner CSS -->
   <link rel="stylesheet" href="assets/css/circle.css">
   <link rel="stylesheet" href="assets/css/spinner.css">
@@ -119,14 +121,13 @@
     <!-- ============================================================== -->
     <div class="side-mini-panel">
       <ul class="mini-nav">
-        <li>
-          <a href="index.html"><i class="icon-home"></i></a>
+        <li><a href="index.html" data-tippy-content="Home" class="tippy-tooltip"><i class="icon-home"></i></a>
         </li>
-        <li><a href="pages-services.html"><i class="icon-grid"></i></a>
+        <li><a href="pages-services.html" data-tippy-content="Your Services" class="tippy-tooltip"><i class="icon-grid"></i></a>
         </li>
-        <li><a href="pages-requests.html"><i class="icon-notebook"></i></a>
+        <li><a href="pages-requests.html" data-tippy-content="Your Requests" class="tippy-tooltip"><i class="icon-notebook"></i></a>
         </li>
-        <li><a href="pages-new-request.html"><i class="icon-plus"></i></a>
+        <li><a href="pages-new-request.html" data-tippy-content="Submit a New Request" class="tippy-tooltip"><i class="icon-plus"></i></a>
         </li>
       </ul>
     </div>
@@ -230,9 +231,9 @@
   <!-- ============================================================== -->
   <!-- All Jquery -->
   <!-- ============================================================== -->
-  <script src="assets/node_modules/jquery/jquery-3.2.1.min.js"></script>
-  <!-- Bootstrap tether Core JavaScript -->
-  <script src="assets/node_modules/popper/popper.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <!-- Bootstrap popper Core JavaScript -->
+  <script src="assets/node_modules/popper.js/dist/umd/popper.min.js"></script>
   <script src="assets/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
   <!-- slimscrollbar scrollbar JavaScript -->
   <script src="assets/js/perfect-scrollbar.jquery.min.js"></script>
@@ -240,15 +241,14 @@
   <script src="assets/js/waves.js"></script>
   <!--Menu sidebar -->
   <script src="assets/js/sidebarmenu.js"></script>
-  <!--stickey kit -->
-  <script src="assets/node_modules/sticky-kit-master/dist/sticky-kit.min.js"></script>
-  <script src="assets/node_modules/sparkline/jquery.sparkline.min.js"></script>
   <!-- Popup message jquery -->
-  <script src="assets/node_modules/toast-master/js/jquery.toast.js"></script>
+  <script src="assets/node_modules/jquery-toast-plugin/dist/jquery.toast.min.js"></script>
   <!--Custom JavaScript -->
   <script src="assets/js/custom.min.js"></script>
   <!-- JSON Editor -->
   <script src="assets/js/jquery.json-editor.min.js"></script>
+  <!-- Tippy.js (tooltips) -->
+  <script src="assets/node_modules/tippy.js/dist/tippy-bundle.iife.min.js"></script>
   <!-- Moment.js -->
   <script src="assets/js/moment-with-locales.js"></script>
   <!-- Sweet Alert -->
@@ -278,6 +278,9 @@
 
       // Enable tooltips
       $('[data-toggle="tooltip"]').tooltip();
+      tippy('.tippy-tooltip', {
+        placement: "right"
+      });
 
       initModal();
       await loadItems();
