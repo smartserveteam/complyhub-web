@@ -11,8 +11,8 @@
   <!-- Favicon icon -->
   <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon.png">
   <title>ComplyHub - My Requests</title>
-  <!--Toaster Popup message CSS -->
-  <link href="assets/node_modules/toast-master/css/jquery.toast.css" rel="stylesheet">
+  <!-- JQuery Toast Popup message CSS -->
+  <link href="assets/node_modules/jquery-toast-plugin/dist/jquery.toast.min.css" rel="stylesheet">
   <!-- JQuery UI -->
   <link rel="stylesheet" href="assets/js/jquery-ui.min.css">
   <!-- jsGrid -->
@@ -25,7 +25,8 @@
   <!-- Spinner CSS -->
   <link rel="stylesheet" href="assets/css/circle.css">
   <link rel="stylesheet" href="assets/css/spinner.css">
-  <link rel="stylesheet" href="assets/css/wizard.css">
+  <!-- Wizard CSS -->
+  <link href="assets/node_modules/wizard/steps.css" rel="stylesheet">
   <style>
     @media (min-width: 768px) {
       .modal-xl {
@@ -161,86 +162,78 @@
         <!-- ============================================================== -->
         <!-- Start Page Content -->
         <!-- ============================================================== -->
-        <form action="" id="wizard">
-          <!-- SECTION 1 -->
-          <h2></h2>
-          <section>
-            <div class="inner">
-              <div class="form-content">
-                <div class="form-header">
-                  <h3>New Request</h3>
-                </div>
-                <p>Please enter details about the subject</p>
-                <div class="form-row">
-                  <div class="form-holder">
-                    <input type="text" id="name" name="name" placeholder="Name" class="form-control">
-                  </div>
-                  <div class="form-holder">
-                    <input type="text" id="id" name="id" placeholder="Id" class="form-control">
-                  </div>
-                  <div class="form-holder">
-                    <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Phone Number" class="form-control">
-                  </div>
-                  <div class="form-holder">
-                    <input type="text" id="email" name="email" placeholder="Email Address" class="form-control">
-                  </div>
-                </div>
+        <div class="row" id="wizard">
+          <div class="col-12">
+            <div class="card wizard-content">
+              <div class="card-body">
+                <h4 class="card-title">New GDPR Request</h4>
+                <h6 class="card-subtitle">Submit a new request</h6>
+                <form action="#" class="validation-wizard wizard-circle">
+                  <!-- Step 1 -->
+                  <h6>Search for Subject</h6>
+                  <div class="errorTxt text-center"></div>
+                  <section>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="name">Name</label>
+                          <input type="text" class="form-control border-dark send" id="name" name="name" placeholder="Subject's name">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="id">User Id</label>
+                          <input type="text" class="form-control border-dark send" id="id" name="id" placeholder="Subject Id (e.g. user id)">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="email">Email Address</label>
+                          <input type="email" class="form-control border-dark send" id="email" name="email" placeholder="Subject email address">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="phoneNumber">Phone Number:</label>
+                          <input type="tel" class="form-control border-dark send" id="phoneNumber" name="phoneNumber" placeholder="Subject phone number">
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                  <!-- Step 2 -->
+                  <h6>Select your services</h6>
+                  <section>
+                    <div class="row">
+                      <div id="connectors" class="row">
+                      </div>
+                    </div>
+                  </section>
+                  <!-- Step 3 -->
+                  <h6>Search Results</h6>
+                  <section>
+                    <div class="row">
+                      <div class="accordion" id="results">
+                      </div>
+                    </div>
+                  </section>
+                  <!-- Step 4 -->
+                  <h6>Request Type</h6>
+                  <section>
+                    <div class="row">
+                      <select data-actions-box="true" id="requestTypeSelect">
+                        <option value="Delete">Delete</option>
+                        <option value="Export">Export</option>
+                        <option value="Update">Update</option>
+                      </select>
+                    </div>
+                  </section>
+                </form>
               </div>
             </div>
-          </section>
-
-          <!-- SECTION 2 -->
-          <h2></h2>
-          <section>
-            <div class="inner">
-              <div class="form-content">
-                <div class="form-header">
-                  <h3>New Request</h3>
-                </div>
-                <p>Select one or more configurations</p>
-                <div id="connectors" class="row">
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <!-- SECTION 3 -->
-          <h2></h2>
-          <section>
-            <div class="inner">
-              <div class="form-content">
-                <div class="form-header">
-                  <h3>New Request</h3>
-                </div>
-                <p>Search Results</p>
-                <div class="accordion" id="results">
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <!-- SECTION 4 -->
-          <h2></h2>
-          <section>
-            <div class="inner">
-              <div class="form-content">
-                <div class="form-header">
-                  <h3>New Request</h3>
-                </div>
-                <p>What do you want to do?</p>
-                <div class="form-row">
-                  <div class="form-holder w-100">
-                    <select data-actions-box="true" id="requestTypeSelect">
-                      <option value="Delete">Delete</option>
-                      <option value="Export">Export</option>
-                      <option value="Update">Update</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-        </form>
+          </div>
+        </div>
         <!-- ============================================================== -->
         <!-- End Page Content -->
         <!-- ============================================================== -->
@@ -270,7 +263,7 @@
   <!-- ============================================================== -->
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <!-- Bootstrap tether Core JavaScript -->
-  <script src="assets/node_modules/popper/popper.min.js"></script>
+  <script src="assets/node_modules/popper.js/dist/umd/popper.min.js"></script>
   <script src="assets/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
   <!-- slimscrollbar scrollbar JavaScript -->
   <script src="assets/js/perfect-scrollbar.jquery.min.js"></script>
@@ -279,10 +272,10 @@
   <!--Menu sidebar -->
   <script src="assets/js/sidebarmenu.js"></script>
   <!--stickey kit -->
-  <script src="assets/node_modules/sticky-kit-master/dist/sticky-kit.min.js"></script>
-  <script src="assets/node_modules/sparkline/jquery.sparkline.min.js"></script>
+  <script src="assets/node_modules/sticky-kit/dist/sticky-kit.min.js"></script>
+  <script src="assets/node_modules/jquery-sparkline/jquery.sparkline.min.js"></script>
   <!-- Popup message jquery -->
-  <script src="assets/node_modules/toast-master/js/jquery.toast.js"></script>
+  <script src="assets/node_modules/jquery-toast-plugin/dist/jquery.toast.min.js"></script>
   <!--Custom JavaScript -->
   <script src="assets/js/custom.min.js"></script>
   <!-- JSON Editor -->
@@ -292,8 +285,8 @@
   <!-- Sweet Alert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
   <!-- JQuery Validate -->
-  <script src="assets/js/jquery-validate/jquery.validate.min.js"></script>
-  <script src="assets/js/jquery-validate/additional-methods.min.js"></script>
+  <script src="assets/node_modules/jquery-validation/dist/jquery.validate.min.js"></script>
+  <script src="assets/node_modules/jquery-validation/dist/additional-methods.min.js"></script>
   <!-- jsGrid -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
   <!-- JQuery UI -->
@@ -318,274 +311,101 @@
       } else {
         $(".admin").attr("style", "display:none");
       }
-
-      // Enable tooltips
-      $('[data-toggle="tooltip"]').tooltip()
-
-      var form = $("#subjectDetailsForm");
-      form.validate({
-        errorPlacement: function errorPlacement(error, element) { element.before(error); },
-        // rules: {
-        //   name: {
-        //     equalTo: "#password"
-        //   }
-        // }
-      });
-
-      // Wizard
-      $("#wizard").steps({
-        headerTag: "h2",
-        bodyTag: "section",
-        transitionEffect: "fade",
-        enableAllSteps: true,
-        transitionEffectSpeed: 500,
-        labels: {
-          finish: "Submit",
-          next: "Forward",
-          previous: "Backward"
-        },
-        onStepChanging: async function (event, currentIndex, newIndex) {
-          console.log('onStepChanging:', event, currentIndex, newIndex);
-          //form.validate().settings.ignore = ":disabled,:hidden";
-          //return form.valid();
-          switch (currentIndex) {
-            case 0:
-              if (newIndex === 1) {
-                // Save Subject
-                subject = $.extend({}, {
-                  id: $("#id").val() || undefined,
-                  name: $("#name").val() || undefined,
-                  phoneNumber: $("#phoneNumber").val() || undefined,
-                  email: $("#email").val() || undefined
-                });
-
-                // Load connectors
-                $("#connectors").empty();
-                configurations = await getConfigurations();
-                connectors = await getConnectors();
-                $.each(connectors, (i, connector) => {
-                  createConnectorCard(connector);
-                });
-              }
-            case 1:
-              if (newIndex === 2) {
-                // Search
-
-                // Connectors
-                const connectorIds = Object.keys(connectorConfigs);
-                var configurationIds = [];
-                for (let connectorId of Object.keys(connectorConfigs)) {
-                  // There can be multiple configurations for a single connector (e.g. multiple Genesys Cloud orgs)
-                  for (let configurationId of connectorConfigs[connectorId]) {
-                    configurationIds.push(configurationId);
-                  }
-                  //configurationIds.push(connectorConfigs[connectorId]);
-                }
-
-                for await (let connectorId of connectorIds) {
-                  connectors.push(await getConnector(connectorId));
-                }
-                console.log('Connectors:', connectors);
-
-                // Configurations
-                for await (let configurationId of configurationIds) {
-                  configurations.push(await getConfiguration(configurationId));
-                }
-                console.log('Configurations:', configurations);
-
-                let results = await searchSubjects(connectors, configurations, subject);
-
-                for (let result of results) {
-                  console.log('Result:', result);
-                  let card = $("<div/>", { class: "card" }).appendTo("#results");
-
-                  // Header
-                  let cardHeader = $("<div/>", { class: "card-header", id: result.connector.provider }).appendTo(card);
-                  let title = $("<h2/>", { class: "mb-0" }).appendTo(cardHeader);
-                  const uniqueId = result.connector.apiPath + result.configuration.id;
-                  $("<button/>", { class: "btn btn-link", type: "button", "data-toggle": "collapse", "data-target": "#" + uniqueId + "_collapse", "aria-expanded": true, "aria-controls": uniqueId + "_collapse" }).text(result.connector.provider + " (" + result.configuration.configurationName + ")").appendTo(title);
-
-                  // Body
-                  let collapseDiv = $("<div/>", { id: uniqueId + "_collapse", class: "collapse show", "aria-labelledby": result.connector.provider, "data-parent": "#results" }).appendTo(card);
-                  let cardBody = $("<div/>", { class: "card-body" }).appendTo(collapseDiv);
-
-                  switch (result.connector.provider) {
-                    case 'Genesys Cloud':
-                      let resultsTable = $("<table/>", { class: "table table-sm table-hover" }).appendTo(cardBody);
-                      let resultsTableHead = $("<thead/>").appendTo(resultsTable);
-                      let resultsTableHeadRow = $("<tr/>").appendTo(resultsTableHead);
-                      $("<th/>", { scope: "col" }).appendTo(resultsTableHeadRow);
-                      $("<th/>", { scope: "col" }).text("Type").appendTo(resultsTableHeadRow);
-                      $("<th/>", { scope: "col" }).text("Id").appendTo(resultsTableHeadRow);
-                      $("<th/>", { scope: "col" }).text("Name").appendTo(resultsTableHeadRow);
-                      $("<th/>", { scope: "col" }).text("Addresses").appendTo(resultsTableHeadRow);
-                      $("<th/>", { scope: "col" }).text("Phone Numbers").appendTo(resultsTableHeadRow);
-                      $("<th/>", { scope: "col" }).text("Emails").appendTo(resultsTableHeadRow);
-
-                      let resultsTableTBody = $("<tbody/>").appendTo(resultsTable);
-                      $.each(result.results, (i, providerResult) => {
-                        let resultRow = $("<tr/>").appendTo(resultsTableTBody);
-
-                        // Checkbox column
-                        let checkDiv = $("<div/>", { class: "form-check" }).appendTo(resultRow);
-                        let inputCheck = $("<input/>", { class: "form-check-input", type: "checkbox" }).appendTo(checkDiv);
-                        inputCheck.on("click", (e) => {
-                          if (inputCheck.prop("checked")) {
-                            if (providerResult.hasOwnProperty('userId')) {
-                              subjectsToProcess.push({
-                                name: "userId",
-                                value: providerResult.userId
-                              });
-                            } else if (providerResult.hasOwnProperty('externalContactId')) {
-                              subjectsToProcess.push({
-                                name: "externalContactId",
-                                value: providerResult.externalContactId
-                              });
-                            }
-                          } else {
-                            if (providerResult.hasOwnProperty('userId')) {
-                              subjectsToProcess = subjectsToProcess.filter(s => s.value !== providerResult.userId);
-                            } else if (providerResult.hasOwnProperty('userId')) {
-                              subjectsToProcess = subjectsToProcess.filter(s => s.value !== providerResult.externalContactId);
-                            }
-                          }
-                        });
-
-                        // Type and id columns
-                        if (providerResult.hasOwnProperty('userId')) {
-                          $("<td/>").text("User Id").appendTo(resultRow);
-                          $("<td/>").text(providerResult.userId).appendTo(resultRow);
-                        } else if (providerResult.hasOwnProperty('externalContactId')) {
-                          $("<td/>").text("External Contact Id").appendTo(resultRow);
-                          $("<td/>").text(providerResult.externalContactId).appendTo(resultRow);
-                        }
-
-                        // Other columns
-                        $("<td/>").text(providerResult.name).appendTo(resultRow);
-                        $("<td/>").text(providerResult.addresses).appendTo(resultRow);
-                        $("<td/>").text(providerResult.phoneNumbers).appendTo(resultRow);
-                        $("<td/>").text(providerResult.emailAddresses).appendTo(resultRow);
-                      });
-                      break;
-                    case 'Zendesk':
-                      let zendeskResultsTable = $("<table/>", { class: "table table-sm table-hover" }).appendTo(cardBody);
-                      let zendeskResultsTableHead = $("<thead/>").appendTo(zendeskResultsTable);
-                      let zendeskResultsTableHeadRow = $("<tr/>").appendTo(zendeskResultsTableHead);
-                      $("<th/>", { scope: "col" }).appendTo(zendeskResultsTableHeadRow);
-                      $("<th/>", { scope: "col" }).text("Type").appendTo(zendeskResultsTableHeadRow);
-                      $("<th/>", { scope: "col" }).text("Id").appendTo(zendeskResultsTableHeadRow);
-                      $("<th/>", { scope: "col" }).text("Name").appendTo(zendeskResultsTableHeadRow);
-                      $("<th/>", { scope: "col" }).text("Addresses").appendTo(zendeskResultsTableHeadRow);
-                      $("<th/>", { scope: "col" }).text("Phone Numbers").appendTo(zendeskResultsTableHeadRow);
-                      $("<th/>", { scope: "col" }).text("Emails").appendTo(zendeskResultsTableHeadRow);
-
-                      let zendeskResultsTableTBody = $("<tbody/>").appendTo(zendeskResultsTable);
-                      $.each(result.results, (i, providerResult) => {
-                        let zendeskResultRow = $("<tr/>").appendTo(zendeskResultsTableTBody);
-
-                        // Checkbox column
-                        let zendeskCheckDiv = $("<div/>", { class: "form-check" }).appendTo(zendeskResultRow);
-                        let zendeskInputCheck = $("<input/>", { class: "form-check-input", type: "checkbox" }).appendTo(zendeskCheckDiv);
-                        zendeskInputCheck.on("click", (e) => {
-                          if (inputCheck.prop("checked")) {
-                            if (providerResult.hasOwnProperty('id')) {
-                              subjectsToProcess.push({
-                                name: "userId",
-                                value: providerResult.id
-                              });
-                            }
-                          }
-                        });
-
-                        // Type and id columns
-                        if (providerResult.hasOwnProperty('id')) {
-                          $("<td/>").text("User Id").appendTo(zendeskResultRow);
-                          $("<td/>").text(providerResult.id).appendTo(zendeskResultRow);
-                        }
-
-                        // Other columns
-                        $("<td/>").text(providerResult.name).appendTo(zendeskResultRow);
-                        $("<td/>").appendTo(zendeskResultRow); // Addresses
-                        $("<td/>").appendTo(zendeskResultRow); // Phone Numbers
-                        $("<td/>").text(providerResult.email).appendTo(zendeskResultRow);
-                      });
-                      break;
-                    default:
-                      break;
-                  }
-                }
-              }
-              break;
-            default:
-              break;
-          }
-          return true;
-        },
-        onFinishing: function (event, currentIndex) {
-          // form.validate().settings.ignore = ":disabled";
-          // return form.valid();
-          return true;
-        },
-        onFinished: function (event, currentIndex) {
-          createRequest("Search:" + $("#id").val() || $("#name").val() || $("#phoneNumber").val() || $("#email").val(), $("#requestTypeSelect").val(), connectors, configurations, subjectsToProcess).then((result) => {
-            alert("Submitted!");
-          }).catch((error) => {
-            console.error(error);
-            showMessage(error.responseJSON.message, true);
-          });
-        }
-      });
-
-      $('.wizard > .steps li a').click(function () {
-        $(this).parent().addClass('checked');
-        $(this).parent().prevAll().addClass('checked');
-        $(this).parent().nextAll().removeClass('checked');
-      });
-
-      // Custom Jquery Step Button
-      $('.forward').click(function () {
-        $("#wizard").steps('next');
-      });
-
-      $('.backward').click(function () {
-        $("#wizard").steps('previous');
-      });
-
-      // Select Dropdown
-      $('html').click(function () {
-        $('.select .dropdown').hide();
-      });
-
-      $('.select').click(function (event) {
-        event.stopPropagation();
-      });
-
-      $('.select .select-control').click(function () {
-        $(this).parent().next().toggle();
-      });
-
-      $('.select .dropdown li').click(function () {
-        $(this).parent().toggle();
-        var text = $(this).attr('rel');
-        $(this).parent().prev().find('div').text(text);
-      });
-
     })();
+
+    var form = $(".validation-wizard").show();
+
+    $(".validation-wizard").steps({
+      headerTag: "h6",
+      bodyTag: "section",
+      transitionEffect: "fade",
+      titleTemplate: '<span class="step">#index#</span> #title#',
+      labels: {
+        finish: "Submit"
+      },
+      onStepChanging: async function (event, currentIndex, newIndex) {
+        if (!(currentIndex > newIndex || !(3 === newIndex && Number($("#age-2").val()) < 18) && (currentIndex < newIndex && (form.find(".body:eq(" + newIndex + ") label.error").remove(), form.find(".body:eq(" + newIndex + ") .error").removeClass("error")), form.validate().settings.ignore = ":disabled,:hidden", form.valid()))) {
+          return false;
+        }
+        console.log('Current Index:', currentIndex);
+        console.log('New Index:', newIndex);
+
+        switch (newIndex) {
+          case 1:
+            // Load connectors
+            $("#connectors").empty();
+            configurations = await getConfigurations();
+            connectors = await getConnectors();
+            $.each(connectors, (i, connector) => {
+              createConnectorCard(connector);
+            });
+            break;
+          default:
+            break;
+        }
+
+        return true;
+      },
+      onFinishing: function (event, currentIndex) {
+        return form.validate().settings.ignore = ":disabled", form.valid()
+      },
+      onFinished: function (event, currentIndex) {
+        swal("Form Submitted!", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lorem erat eleifend ex semper, lobortis purus sed.");
+      }
+    }), $(".validation-wizard").validate({
+      ignore: "input[type=hidden]",
+      errorClass: "text-danger",
+      successClass: "text-success",
+      highlight: function (element, errorClass) {
+        $(element).removeClass(errorClass)
+      },
+      unhighlight: function (element, errorClass) {
+        $(element).removeClass(errorClass)
+      },
+      errorPlacement: function (error, element) {
+        error.insertAfter(element)
+      },
+      errorLabelContainer: '.errorTxt',
+      groups: {
+        names: "name id email phoneNumber"
+      },
+      rules: {
+        name: {
+          require_from_group: [1, ".send"]
+        },
+        id: {
+          require_from_group: [1, ".send"]
+        },
+        email: {
+          require_from_group: [1, ".send"]
+        },
+        phoneNumber: {
+          require_from_group: [1, ".send"]
+        },
+      }
+    });
+
+    //  for your custom message
+    $.extend($.validator.messages, {
+      require_from_group: $.validator.format("Please fill out at least {0} of these fields.")
+    });
 
     async function createConnectorCard(connector) {
       console.log('Creating connector card for', connector);
-      let colDiv = $("<div/>", { class: "col-lg-2 col-md-4" }).appendTo("#connectors");
+      let colDiv = $("<div/>", { class: "" }).appendTo("#connectors");
       let cardDiv = $("<div/>", { class: "card shadow" }).appendTo(colDiv);
       $("<img/>", { class: "card-img-top img-responsive", src: connector.logoUrl, alt: connector.provider }).appendTo(cardDiv);
       let cardBody = $("<div/>", { class: "card-body" }).appendTo(cardDiv);
-      // <select multiple data-actions-box="true" data-selected-text-format="count" data-live-search="true" id="configsSelect"></select>
-      let configsSelect = $("<select/>", { multiple: true, "data-actions-box": true, "data-selected-text-format": "count", "data-live-search": true }).appendTo(cardBody);
-      configsSelect.selectpicker();
+      let configsSelect = $("<select/>", { multiple: true, "data-actions-box": true, "data-selected-text-format": "count", "data-live-search": true, id: connector.id, "data-container": "body" }).appendTo(cardBody);
+      configsSelect.selectpicker({
+        style: "btn btn-info text-white"
+      });
       let currentConfigurations = configurations.filter(c => c.connectorId === connector.id);
       for (let configuration of currentConfigurations) {
+        console.log('Adding option:', configuration.id, configuration.configurationName, 'to', configsSelect.id);
         $("<option/>", { value: configuration.id }).text(configuration.configurationName).appendTo(configsSelect);
       }
-      $(configsSelect).selectpicker('refresh');
+      $(".selectpicker").selectpicker('refresh');
     }
 
   </script>
