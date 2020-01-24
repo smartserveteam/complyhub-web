@@ -509,7 +509,7 @@
         return form.validate().settings.ignore = ":disabled", form.valid()
       },
       onFinished: function (event, currentIndex) {
-        createRequest("Search:" + $("#id").val() || $("#name").val() || $("#phoneNumber").val() || $("#email").val(), $("#requestTypeSelect").val(), selectedConnectors, selectedConfigurations, subjectsToProcess).then((result) => {
+        createRequest("Search:" + JSON.stringify(subject), $("#requestTypeSelect").val(), selectedConnectors, selectedConfigurations, subjectsToProcess).then((result) => {
           alert("Submitted!"); //TODO Add a swal alert (and propose to create a new request or view current requests)
         }).catch((error) => {
           console.error(error);
