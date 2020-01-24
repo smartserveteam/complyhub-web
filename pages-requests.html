@@ -169,7 +169,7 @@
                       <th>Configurations</th>
                       <th>Last Updated</th>
                       <th class="text-center">Status</th>
-                      <th></th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody id="requests">
@@ -414,11 +414,22 @@
               console.error('Unknown status:', status)
               break;
           }
-          $("<div/>", { class: "label label-table " + labelClass }).text(status).appendTo(statusTd);
+          let statusDiv = $("<div/>", { class: "label label-table " + labelClass }).text(status).appendTo(statusTd);
+
+          // Actions
+          var actionsTd = $("<td/>").appendTo(row);
+
+          // Download
+          if (status === 'Completed') {
+            var downloadIcon = $("<i/>", { class: "fas fa-download col-2 text-success", style: "font-size:20px" }).appendTo(actionsTd);
+            downloadIcon.on('click', async (e) => {
+              alert('Download clicked!'); //TODO Find download link in response and push to browser
+            });
+          }
 
           // Delete
-          var deleteTd = $("<td/>", { class: "text-center" }).html('<i class="ti-trash text-danger" style="font-size:20px"></i>').appendTo(row);
-          deleteTd.on('click', async (e) => {
+          var deleteIcon = $("<i/>", { class: "fas fa-trash-alt text-danger col-2", style: "font-size:20px" }).appendTo(actionsTd);
+          deleteIcon.on('click', async (e) => {
             swal.fire({
               title: "Are you sure?",
               text: "You will not be able to recover this item!",
