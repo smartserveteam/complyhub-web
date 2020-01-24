@@ -27,14 +27,6 @@
   <!-- Spinner CSS -->
   <link rel="stylesheet" href="assets/css/circle.css">
   <link rel="stylesheet" href="assets/css/spinner.css">
-  <style>
-    @media (min-width: 768px) {
-      .modal-xl {
-        width: 90%;
-        max-width: 1200px;
-      }
-    }
-  </style>
   <!-- page css -->
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -161,8 +153,7 @@
         <!-- ============================================================== -->
         <!-- Requests Status -->
         <!-- ============================================================== -->
-        <button type="button" class="btn btn-tertiary mb-3" id="btnRefresh"><i class="ti-reload"></i></button>
-        <button type="button" class="btn btn-info mb-3 ml-2" id="btnAdd" data-toggle="modal" data-target="#editModal"><i class="ti-plus"></i> Add</button>
+        <button type="button" class="btn btn-secondary mb-3" id="btnRefresh"><i class="ti-reload"></i></button>
         <div class="row">
           <!-- Column -->
           <div class="col-lg-12 col-md-12">
@@ -191,93 +182,6 @@
         </div>
         <!-- ============================================================== -->
         <!-- End Requests Status -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Modals -->
-        <!-- ============================================================== -->
-        <!-- Edit Modal -->
-        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-hidden="true">
-          <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 id="title" class="modal-title"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <form class="modal-body form-horizontal" id="editModal-form">
-                <div class="form-group row">
-                  <label for="id" class="control-label col-sm-3 text-right col-form-label">Id:</label>
-                  <div class="col-sm-9">
-                    <input type="text" readonly class="form-control" id="id" name="id" placeholder="<Not Set>">
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <label for="requestName" class="control-label col-sm-3 text-right col-form-label">Name:</label>
-                  <div class="col-sm-9">
-                    <input type="text" class="form-control" id="requestName" name="requestName" required placeholder="Enter a name for this configuration">
-                  </div>
-                </div>
-                <div class="form-group row" id="connectors">
-                </div>
-                <div class="form-group row">
-                  <label for="requestTypes" class="control-label col-sm-3 text-right col-form-label">Type:</label>
-                  <div class="col-sm-9">
-                    <select class="form-control" id="requestTypes" name="requestTypes" required>
-                      <option value="Export">Export</option>
-                      <option value="Delete">Delete</option>
-                      <option value="Update">Update</option>
-                    </select>
-                  </div>
-                </div>
-                <hr />
-                <p class="text-center text-tertiary">Subject Fields</small>
-                  <div class="form-group row">
-                    <label for="subjectFields" class="control-label col-sm-3 text-right col-form-label">Subject Fields:</label>
-                    <div class="col-sm-7">
-                      <select class="form-control show-tick" id="subjectFields" name="subjectFields">
-                      </select>
-                    </div>
-                    <div class="col-sm-2">
-                      <button class="btn btn-primary" id="addSubjectField"><i class="fas fa-plus-circle"></i> Add</button>
-                    </div>
-                  </div>
-                  <div class="form-group row" required id="parameters">
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button id="submitButton" type="submit" class="btn btn-primary">Save</button>
-                  </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <!-- Configs Modal -->
-        <div class="modal fade" id="configsModal" tabindex="-1" role="dialog" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 id="title" class="modal-title"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <form class="modal-body form-horizontal" id="configsModal-form">
-                <div class="form-group row">
-                  <label for="id" class="control-label col-sm-3 text-right col-form-label">Configurations:</label>
-                  <div class="col-sm-9">
-                    <select multiple data-actions-box="true" data-selected-text-format="count" data-live-search="true" id="configsSelect"></select>
-                  </div>
-                </div>
-              </form>
-              <div class="modal-footer">
-                <button id="submitButton" type="submit" class="btn btn-primary">Save</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- ============================================================== -->
-        <!-- End Modals -->
         <!-- ============================================================== -->
         <!-- ============================================================== -->
         <!-- End Page Content -->
@@ -456,8 +360,6 @@
         placement: "right"
       });
 
-      initModal();
-      loadSubjectFields();
       await loadRequests();
     })();
 
@@ -473,68 +375,7 @@
 
           // Name
           let nameTd = $("<td/>", {}).appendTo(row);
-          let name = $("<a/>", { class: "link", href: "javascript:void(0)" }).text(item.requestName).appendTo(nameTd);
-          name.on('click', async (e) => {
-            e.preventDefault();
-            console.log("Editing", item);
-
-            $("#editModal #title").text("Request: " + item.requestName);
-            $("#editModal #id").val(item.id);
-            $("#editModal #requestName").val(item.requestName);
-
-            // Connectors & Configurations
-            connectorConfigs = [];
-            for (let connector of item.connectors) {
-              let usedConfigurations = item.configurations.filter(conf => conf.connectorId === connector.id).map(conf => { return conf.id });
-              if (usedConfigurations.length > 0) {
-                connectorConfigs[connector.id] = usedConfigurations;
-              }
-            }
-            console.log('connectorConfigs:', connectorConfigs);
-
-            //TODO This is dirty. Can't make up my mind whether I should use GDPR_* entries or simply "Export"/"Delete"/"Update"
-            // If logic changes, code in gdprrequests api handler.js must be updated too
-            let requestType = item.body.requestType;
-            if (item.body.requestType.indexOf('GDPR_') != -1) {
-              switch (item.body.requestType) {
-                case 'GDPR_DELETE':
-                  requestType = 'Delete';
-                  break;
-                case 'GDPR_EXPORT':
-                  requestType = 'Export';
-                  break;
-                case 'GDPR_UPDATE':
-                  requestType = 'Update';
-                  break;
-                default:
-                  console.error('Unknown request type:', item.body.requestType);
-                  break;
-              }
-            }
-            $("#editModal #requestTypes").val(requestType);
-
-            // Request parameters
-            var parametersArray = [];
-            Object.entries(item.body.subject).map(([name, value]) => {
-              parametersArray.push({
-                name: name,
-                value: value
-              })
-            });
-
-            // Subject fields
-            console.log('Parameters array:', parametersArray);
-            $.each(parametersArray, (j, parameter) => {
-              addSubjectField(parameter.name, parameter.value);
-            });
-
-            $("#editModal #submitButton").hide();
-            $("#editModal #requestName").attr("disabled", true);
-            $("#configsModal #configsSelect").attr('disabled', 'disabled');
-            $("#editModal #requestTypes").attr("disabled", true);
-
-            $("#editModal").modal("show");
-          });
+          let name = $("<label/>", { class: "link", href: "javascript:void(0)" }).text(item.requestName).appendTo(nameTd);
 
           // Connectors & Configurations
           let configurationTd = $("<td/>", {}).appendTo(row);
@@ -616,219 +457,9 @@
       }
     }
 
-    async function initModal() {
-      console.log("Initializing modal");
-      $("#editModal #title").text("New Request");
-      $("#editModal #id").val("");
-      $("#editModal #requestName").val("");
-      $("#editModal #requestTypes").val($("#editModal #requestTypes option:first").val());
-
-      // Connectors list
-      $("#editModal #connectors").empty();
-      var connectors = await getConnectors();
-      $.each(connectors, (i, connector) => {
-        createConnectorCard(connector);
-      });
-
-      $("#editModal #parameters").empty();
-
-      // Enable fields in case they were disabled by an editing request
-      $("#editModal #requestName").attr("disabled", false);
-      $("#editModal #connector").attr("disabled", false);
-      $("#editModal #configuration").attr("disabled", false);
-      $("#editModal #requestTypes").attr("disabled", false);
-      $("#configsModal #configsSelect").removeAttr('disabled');
-      $("#configsModal #configsSelect").val('');
-      $("#configsModal #configsSelect").selectpicker('refresh');
-      $("#editModal #submitButton").text("Create");
-      $("#editModal #submitButton").show();
-      $("#editModal #submitButton").unbind().on("click", async (e) => {
-        e.preventDefault();
-
-        //#region Validation
-
-        if (!$("#editModal-form").valid()) {
-          showMessage("Missing or invalid fields", true);
-          return;
-        }
-
-        if (Object.keys(connectorConfigs).length === 0) {
-          showMessage("No configurations selected", true);
-          return;
-        }
-
-        if (Object.keys(selectedSubjectFields).length === 0) {
-          showMessage("Missing subject fields", true);
-          return;
-        }
-
-        //#endregion
-
-        $("#editModal #submitButton").html('<i class="fa fa-circle-notch fa-spin"></i> Creating...')
-        $("#editModal #submitButton").attr("disabled", true);
-
-        const name = $("#editModal #requestName").val();
-        const requestType = $("#editModal #requestTypes").val();
-
-        // Connectors
-        const connectorIds = Object.keys(connectorConfigs);
-        var configurationIds = [];
-        for (let connectorId of Object.keys(connectorConfigs)) {
-          configurationIds.push(connectorConfigs[connectorId]);
-        }
-
-        let connectors = [];
-        for await (let connectorId of connectorIds) {
-          connectors.push(await getConnector(connectorId));
-        }
-        console.log('Connectors:', connectors);
-
-        // Configurations
-        let configurations = [];
-        for await (let configurationId of configurationIds) {
-          configurations.push(await getConfiguration(configurationId));
-        }
-        console.log('Configurations:', configurations);
-
-        // Subject Fields
-        let subjectParameters = [];
-        $.each(selectedSubjectFields, (i, selectedSubjectField) => {
-          let controlValue = $("#editModal #" + selectedSubjectField.id).val();
-          console.log('Control value:', controlValue);
-          if (controlValue.includes(',')) {
-            controlValue = controlValue.split(',');
-          }
-          subjectParameters.push({
-            name: selectedSubjectField.id,
-            value: controlValue
-          });
-        });
-        console.log('Subject Fields:', subjectParameters);
-
-        createRequest(name, requestType, connectors, configurations, subjectParameters).then((result) => {
-          $("#editModal").modal("hide");
-          $("#editModal #submitButton").text("Create");
-          $("#editModal #submitButton").attr("disabled", false);
-        }).catch((error) => {
-          $("#editModal #submitButton").text("Create");
-          $("#editModal #submitButton").attr("disabled", false);
-          console.error(error);
-          showMessage(error.responseJSON.message, true);
-        });
-      });
-    }
-
-    async function createConnectorCard(connector) {
-      let colDiv = $("<div/>", { class: "col-lg-2 col-md-4" }).appendTo("#connectors");
-      let cardDiv = $("<div/>", { class: "card shadow" }).appendTo(colDiv);
-      $("<img/>", { class: "card-img-top img-responsive", src: connector.logoUrl, alt: connector.provider }).appendTo(cardDiv);
-      let cardBody = $("<div/>", { class: "card-body" }).appendTo(cardDiv);
-      let configsButton = $("<button/>", { class: "btn btn-block btn-info" }).text('Configs').appendTo(cardBody);
-      configsButton.on("click", async (e) => {
-        e.preventDefault();
-        $("#configsModal #configsSelect").empty();
-        $("#configsModal").modal("show");
-        console.log("Editing configs for ", connector.provider);
-        $("#configsModal #title").text("Configurations for: " + connector.provider);
-
-        let configurations = await getConfigurations();
-        configurations = configurations.filter(c => c.connectorId === connector.id);
-        for (let configuration of configurations) {
-          $("<option/>", { value: configuration.id }).text(configuration.configurationName).appendTo("#configsModal #configsSelect");
-        }
-        $("#configsModal #configsSelect").val(connectorConfigs[connector.id]);
-        if ($("#editModal #name").attr('readonly') === 'readonly') {
-          $("#configsModal #configsSelect").attr('disabled', 'disabled');
-        }
-        $("#configsModal #configsSelect").selectpicker('refresh');
-
-        $("#configsModal #submitButton").text("Close");
-        $("#configsModal #submitButton").unbind().on("click", (e) => {
-          e.preventDefault();
-          $("#configsModal #submitButton").html('<i class="fa fa-circle-notch fa-spin"></i> Saving...');
-          console.log("Saving...");
-          connectorConfigs[connector.id] = $("#configsModal #configsSelect").val();
-          $("#configsModal").modal("hide");
-        });
-      });
-    }
-
-    function loadSubjectFields() {
-      for (let parameter of parametersArray) {
-        // Create optgroup if it doesn't exist
-        let optgroup;
-        if ($("#editModal #subjectFields").has(`optgroup[name="${parameter.category}"]`).length === 0) {
-          optgroup = $("<optgroup/>", { name: parameter.category, label: parameter.category }).appendTo("#editModal #subjectFields");
-        } else {
-          optgroup = $(`#editModal #subjectFields optgroup[name="${parameter.category}"]`);
-        }
-        $("<option/>", { text: parameter.name, value: parameter.id, "data-subtext": parameter.description, "data-icon": parameter.icon }).appendTo(optgroup);
-      }
-      $("#subjectFields").selectpicker('refresh');
-    }
-
     $("#btnRefresh").on("click", () => {
       loadRequests();
     });
-
-    $("#editModal-form").validate({
-      errorClass: "text-danger",
-      successClass: "test-success"
-    });
-
-    $('#editModal').on('shown.bs.modal', (e) => {
-      $('#editModal #requestName').trigger('focus');
-      $("#editModal #basicgrid").jsGrid("refresh");
-    });
-
-    $('#editModal').on('hidden.bs.modal', async () => {
-      await loadRequests();
-      initModal();
-    });
-
-    $("#addSubjectField").on("click", (e) => {
-      e.preventDefault();
-      addSubjectField($("#subjectFields").val());
-    });
-
-    function addSubjectField(selectedSubjectField, fieldValue) {
-      console.log('Adding subject field:', selectedSubjectField, fieldValue);
-      if (selectedSubjectField.length > 0) {
-        let selectedSubject = parametersArray.find(p => p.id == selectedSubjectField);
-        console.log('Select subject:', selectedSubject);
-        if (!selectedSubject) { console.error("Error while trying to find selected subject information") };
-
-        if ($("#editModal #parameters").has("#div_" + selectedSubject.id).length > 0) {
-          console.warn('There is already a control for', selectedSubject.id);
-          return;
-        }
-        selectedSubjectFields.push(selectedSubject);
-        let mainDiv = $("<div/>", { id: "div_" + selectedSubject.id, class: "col-12 form-group row" }).appendTo("#editModal #parameters");
-        $("<label/>", { for: selectedSubject.id, class: "control-label col-sm-3 text-right col-form-label" }).text(selectedSubject.name + ":").appendTo(mainDiv);
-        let controlDiv = $("<div/>", { id: "control_" + selectedSubject.id, class: "col-sm-7" }).appendTo(mainDiv);
-        switch (selectedSubject.type) {
-          case "string":
-          case "array":
-            let control = $("<input/>", { type: "text", class: "form-control", id: selectedSubject.id, name: selectedSubject.id, placeholder: selectedSubject.description }).prop('required', true).val(fieldValue || "").appendTo(controlDiv);
-            if (fieldValue) {
-              control.val(fieldValue);
-              control.attr('disabled', true);
-            }
-            break;
-          default:
-            console.error('Unknown subject type:', selectedSubject.type);
-            break;
-        }
-        if (!fieldValue) {
-          let removeDiv = $("<div/>", { class: "col-sm-2" }).appendTo(mainDiv);
-          let removeButton = $("<button/>", { class: "btn btn-danger" }).html('<i class="fas fa-trash-alt">').appendTo(removeDiv);
-          removeButton.on("click", (e) => {
-            mainDiv.remove();
-            selectedSubjectFields = selectedSubjectFields.filter(ssf => ssf.id !== selectedSubject.id);
-          });
-        }
-      }
-    }
 
   </script>
 </body>
