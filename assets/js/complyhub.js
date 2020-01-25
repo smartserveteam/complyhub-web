@@ -908,14 +908,12 @@ async function searchSubjects(connectors, configurations, subject) {
     .done((data, textStatus, jqXHR) => {
       logAjaxSuccess("POST /requests/search", data, textStatus, jqXHR);
       try {
-        switch (jqXHR.status) {
-          case 200:
+        if (jqXHR.status === 200) {
             console.log(jqXHR);
             return data;
-          default:
+        } else {
             showMessage("Unexpected error: " + textStatus, true);
             reject(textStatus);
-            break;
         }
       } catch (error) {
         console.error(error);
