@@ -24,9 +24,19 @@ function showSpinner() {
   $("#fadeMe").show();
 }
 
+function showSpinnerOnControl(controlName) {
+  console.log('Show spinner for control:', controlName);
+  $("#" + controlName + " #overlay-div").show();
+}
+
 function hideSpinner(div) {
   $("#fadeMe").removeClass("fadeMe");
   $("#fadeMe").hide();
+}
+
+function hideControlSpinner(controlName) {
+  console.log('Hide spinner for control:', controlName);
+  $("#" + controlName + " #overlay-div").hide();
 }
 
 //#endregion
