@@ -343,8 +343,8 @@
   <script src="assets/js/jquery.steps.js"></script>
   <script>
 
-    //TODO When no results found, show no results
     //TODO Show spinner when searching subjects
+    //TODO When no results found, show no results
 
     var connectorConfigs = [], selectedSubjectFields = [], configurations;
     var subject = {}, subjectsToProcess = [], selectedConnectors = [], selectedConfigurations = [];
@@ -443,8 +443,13 @@
 
     (async () => {
       let userData = await verifyToken();
-      console.log('User Data:', userData);
-      $("#firstName").html(`${userData.claims.given_name} <i class="fa fa-angle-down"></i>`);
+
+      try {
+        console.log('User Data:', userData);
+        $("#firstName").html(`${userData.claims.given_name} <i class="fa fa-angle-down"></i>`);
+      } catch (error) {
+        console.error(error);
+      }
 
       if (isAdmin()) {
         // Show Admin items
@@ -471,6 +476,8 @@
         $("#editModal").modal('toggle');
       }
     })();
+
+    //#region Wizard
 
     var form = $(".validation-wizard").show();
 
@@ -710,6 +717,8 @@
       require_from_group: $.validator.format("Please fill out at least {0} of these fields.")
     });
 
+    //#endregion Wizard
+
     async function loadCards() {
       $("#requests").empty();
 
@@ -742,7 +751,7 @@
           if (item.hasOwnProperty('error') && item.error) {
             status = "Error";
           } else {
-            status = item.hasOwnProperty('providerResponse') ? (item.providerResponse.complete ? "Completed" : "In Progress") : "Not Started";
+            status = item.hasOwnProperty('requestStatus') ? (item.requestStatus.complete ? "Completed" : "In Progress") : "Not Started";
           }
           switch (status) {
             case "In Progress":
@@ -767,10 +776,10 @@
           var actionsTd = $("<td/>").appendTo(row);
 
           // Download
-          if (status === 'Completed') {
+          if (status === 'Completed' && item.requestStatus.providerResponse.hasOwnProperty('resultsUrl')) {
             var downloadIcon = $("<i/>", { class: "fas fa-download col-2 text-success", style: "font-size:20px" }).appendTo(actionsTd);
             downloadIcon.on('click', async (e) => {
-              alert('Download clicked!'); //TODO Find download link in response and push to browser
+              window.open(item.requestStatus.providerResponse.resultsUrl, '_blank');
             });
           }
 
