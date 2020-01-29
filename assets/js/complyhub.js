@@ -853,20 +853,32 @@ async function deleteRequest(id) {
     });
 }
 
-async function createRequest(name, type, connectors, configurations, parameters) {
+async function createRequests(name, requestType, connectors, configurations, parameters) {
+  console.log(`Creating requests: name: ${name}, requestType: ${requestType}, connectors: ${connectors}, configurations: ${configurations}, parameters: ${parameters}`);
+
+  // Create a request for each configuration
+  for await (let configuration of configurations) {
+    let connector = connectors.find(c => c.id === configuration.connectorId);
+    await createRequest(name, requestType, connector, configuration, parameters);
+  }
+  return true;
+}
+
+async function createRequest(name, requestType, connector, configuration, parameters) {
+
+  // Build base data object
   var data = {
     requestName: name,
-    connectors: connectors,
-    configurations: configurations,
-    body: {
-      requestType: type,
-      subject: {
-      }
+    connector: connector,
+    configuration: configuration,
+    requestType: requestType,
+    subject: {
     }
   };
 
+  // Add subject parameters
   $.each(parameters, (i, parameter) => {
-    data.body.subject[parameter.name] = parameter.value;
+    data.subject[parameter.name] = parameter.value;
   });
 
   console.log('Creating request:', data);
@@ -882,14 +894,14 @@ async function createRequest(name, type, connectors, configurations, parameters)
     .done((data, textStatus, jqXHR) => {
       logAjaxSuccess("POST /requests", data, textStatus, jqXHR);
       try {
-        switch (jqXHR.status) {
-          case 201:
-            console.log(jqXHR);
-            showMessage('Request created');
-            return true;
-          default:
-            console.error("Unexpected error: " + textStatus);
-            throw new Error(textStatus);
+        // Request created successfully?
+        if (jqXHR.status === 201) {
+          console.log(jqXHR);
+          showMessage('Request created');
+          return true;
+        } else {
+          console.error("Unexpected error: " + textStatus);
+          throw new Error(textStatus);
         }
       } catch (error) {
         console.error("ERROR:", error);
@@ -899,6 +911,7 @@ async function createRequest(name, type, connectors, configurations, parameters)
     .always(() => {
       console.log("createRequest completed");
     });
+
 }
 
 async function searchSubjects(connectors, configurations, subject) {

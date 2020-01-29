@@ -43,6 +43,17 @@
         max-width: 1200px;
       }
     }
+
+    .hover-effect:hover {
+      cursor: pointer;
+      background-color: #d1e2ff;
+    }
+
+    .selected-card {
+      background-color: #d1e2ff;
+      border: solid;
+      border-color: cornflowerblue;
+    }
   </style>
 </head>
 
@@ -208,6 +219,56 @@
                     <div class="card-body">
                       <form action="#" class="validation-wizard wizard-circle">
                         <!-- Step 1 -->
+                        <h6>Request Type</h6>
+                        <section>
+                          <div class="row mt-3 mb-5 ml-5">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 pb-3 pt-3 ml-5 shadow hover-effect" id="delete-section">
+                              <div class="box-part text-center">
+                                <i class="fas fa-trash-alt fa-3x text-danger mb-2" aria-hidden="true"></i>
+                                <div class="title">
+                                  <h4>Delete</h4>
+                                </div>
+                                <div class="text">
+                                  <span>Exercise the right to be forgotten (or right to erasure)</span>
+                                </div>
+                                <button class="btn btn-info mt-3" id="delete-select-button">Select</button>
+                              </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 pb-3 pt-3 ml-5 shadow hover-effect" id="export-section">
+                              <div class="box-part text-center">
+                                <i class="fas fa-download fa-3x text-info mb-2" aria-hidden="true"></i>
+                                <div class="title">
+                                  <h4>Export</h4>
+                                </div>
+                                <div class="text">
+                                  <span>Exercise the right to data portability (export subject data)</span>
+                                </div>
+                                <a href="#" class="btn btn-info mt-3" id="export-select-button">Select</a>
+                              </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 pb-3 pt-3 ml-5 shadow hover-effect" id="update-section">
+                              <div class="box-part text-center">
+                                <i class="fas fa-pencil-alt fa-3x text-warning mb-2" aria-hidden="true"></i>
+                                <div class="title">
+                                  <h4>Update</h4>
+                                </div>
+                                <div class="text">
+                                  <span>Exercise the right to data access (update subject data)</span>
+                                </div>
+                                <a href="#" class="btn btn-info mt-3" id="update-select-button">Select</a>
+                              </div>
+                            </div>
+                            <!-- <div>
+                              <select data-actions-box="true" id="requestTypeSelect" data-container="body">
+                                <option value="Delete">Delete</option>
+                                <option value="Export">Export</option>
+                                <option value="Update">Update</option>
+                              </select>
+                            </div> -->
+                          </div>
+                        </section>
+
+                        <!-- Step 2 -->
                         <h6>Search for Subject</h6>
                         <div class="errorTxt text-center"></div>
                         <section>
@@ -240,7 +301,7 @@
                             </div>
                           </div>
                         </section>
-                        <!-- Step 2 -->
+                        <!-- Step 3 -->
                         <h6>Select your services</h6>
                         <section>
                           <div class="row">
@@ -248,7 +309,7 @@
                             </div>
                           </div>
                         </section>
-                        <!-- Step 3 -->
+                        <!-- Step 4 -->
                         <h6>Search Results</h6>
                         <section>
                           <div class="row">
@@ -256,24 +317,10 @@
                             </div>
                           </div>
                         </section>
-                        <!-- Step 4 -->
-                        <h6>Request Type</h6>
-                        <section>
-                          <div class="row">
-                            <select data-actions-box="true" id="requestTypeSelect" data-container="body">
-                              <option value="Delete">Delete</option>
-                              <option value="Export">Export</option>
-                              <option value="Update">Update</option>
-                            </select>
-                          </div>
-                        </section>
                       </form>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
               </div>
             </div>>
           </div>
@@ -343,11 +390,8 @@
   <script src="assets/js/jquery.steps.js"></script>
   <script>
 
-    //TODO Show spinner when searching subjects
-    //TODO When no results found, show no results
-
     var connectorConfigs = [], selectedSubjectFields = [], configurations;
-    var subject = {}, subjectsToProcess = [], selectedConnectors = [], selectedConfigurations = [];
+    var subject = {}, requestType, subjectsToProcess = [], selectedConnectors = [], selectedConfigurations = [];
 
     var parametersArray = [
       {
@@ -495,7 +539,7 @@
         }
 
         switch (newIndex) {
-          case 1:
+          case 2:
             // Save subject
             subject = $.extend({}, {
               id: $("#id").val() || undefined,
@@ -515,7 +559,7 @@
             });
 
             break;
-          case 2:
+          case 3:
             // Show results
 
             // Connectors
@@ -580,12 +624,14 @@
                         if (providerResult.hasOwnProperty('userId')) {
                           subjectsToProcess.push({
                             name: "userId",
-                            value: providerResult.userId
+                            value: providerResult.userId,
+                            configuration: result.configuration.id
                           });
                         } else if (providerResult.hasOwnProperty('externalContactId')) {
                           subjectsToProcess.push({
                             name: "externalContactId",
-                            value: providerResult.externalContactId
+                            value: providerResult.externalContactId,
+                            configuration: result.configuration.id
                           });
                         }
                       } else {
@@ -637,7 +683,8 @@
                         if (providerResult.hasOwnProperty('id')) {
                           subjectsToProcess.push({
                             name: "userId",
-                            value: providerResult.id
+                            value: providerResult.id,
+                            configuration: result.configuration.id
                           });
                         }
                       }
@@ -671,7 +718,7 @@
         return form.validate().settings.ignore = ":disabled", form.valid()
       },
       onFinished: function (event, currentIndex) {
-        createRequest("Search:" + JSON.stringify(subject), $("#requestTypeSelect").val(), selectedConnectors, selectedConfigurations, subjectsToProcess).then((result) => {
+        createRequests("Search:" + JSON.stringify(subject), requestType, selectedConnectors, selectedConfigurations, subjectsToProcess).then((result) => {
           console.log('createRequest result:', result);
           $("#editModal").modal('toggle');
         }).catch((error) => {
@@ -717,6 +764,30 @@
       require_from_group: $.validator.format("Please fill out at least {0} of these fields.")
     });
 
+    $("#delete-select-button").on('click', (e) => {
+      e.preventDefault();
+      requestType = 'GDPR_DELETE';
+      $("#delete-section").addClass('selected-card');
+      $("#export-section").removeClass('selected-card');
+      $("#update-section").removeClass('selected-card');
+    });
+
+    $("#export-select-button").on('click', (e) => {
+      e.preventDefault();
+      requestType = 'GDPR_EXPORT';
+      $("#export-section").addClass('selected-card');
+      $("#delete-section").removeClass('selected-card');
+      $("#update-section").removeClass('selected-card');
+    });
+
+    $("#update-select-button").on('click', (e) => {
+      e.preventDefault();
+      requestType = 'GDPR_UPDATE';
+      $("#update-section").addClass('selected-card');
+      $("#delete-section").removeClass('selected-card');
+      $("#export-section").removeClass('selected-card');
+    });
+
     //#endregion Wizard
 
     async function loadCards() {
@@ -735,10 +806,8 @@
 
           // Connectors & Configurations
           let configurationTd = $("<td/>", {}).appendTo(row);
-          for await (let configuration of item.configurations) {
-            let connector = await getConnector(configuration.connectorId);
-            $("<img/>", { src: connector.logoUrl, style: 'max-height:30px;max-width:30px' }).appendTo(configurationTd);
-          }
+          let connector = await getConnector(item.configuration.connectorId);
+          $("<img/>", { src: connector.logoUrl, style: 'max-height:30px;max-width:30px' }).appendTo(configurationTd);
 
           // Last updated
           let dateTd = $("<td/>", {}).appendTo(row);
@@ -747,41 +816,49 @@
 
           // Status
           let statusTd = $("<td/>", { class: "text-center" }).appendTo(row);
-          let status, labelClass;
-          if (item.hasOwnProperty('error') && item.error) {
-            status = "Error";
+          if (item.hasOwnProperty('requestStatus') && item.requestStatus) {
+            console.log('Request Status:', item.requestStatus);
+            let status, labelClass, statusDiv;
+            if (item.requestStatus.error) {
+              status = "Error";
+              statusDiv = $("<div/>", { class: "label label-table " + labelClass }).text(status).appendTo(statusTd);
+              $("<small/>", {}).text(item.requestStatus.errorMessage)
+            } else {
+              status = item.requestStatus.complete ? "Completed" : "In Progress";
+            }
+            switch (status) {
+              case "In Progress":
+                labelClass = "label-warning";
+                break;
+              case "Completed":
+                labelClass = "label-success";
+                break;
+              case "Not Started":
+                labelClass = "label-info";
+                break;
+              case "Error":
+                labelClass = "label-danger";
+                break;
+              default:
+                console.error('Unknown status:', status)
+                break;
+            }
+            statusDiv = $("<div/>", { class: "label label-table " + labelClass }).text(status).appendTo(statusTd);
+
+            // Download
+            if (item.requestStatus.complete && item.requestStatus.providerResponse.hasOwnProperty('resultsUrl')) {
+              console.log('Adding download icon');
+              var downloadIcon = $("<i/>", { class: "fas fa-download col-2 text-info", style: "font-size:20px" }).appendTo(statusTd);
+              downloadIcon.on('click', async (e) => {
+                window.open(item.requestStatus.providerResponse.resultsUrl, '_blank');
+              });
+            }
           } else {
-            status = item.hasOwnProperty('requestStatus') ? (item.requestStatus.complete ? "Completed" : "In Progress") : "Not Started";
+            $("<div/>", { class: "label label-table label-info" }).text('Not Started').appendTo(statusTd);
           }
-          switch (status) {
-            case "In Progress":
-              labelClass = "label-warning";
-              break;
-            case "Completed":
-              labelClass = "label-success";
-              break;
-            case "Not Started":
-              labelClass = "label-info";
-              break;
-            case "Error":
-              labelClass = "label-danger";
-              break;
-            default:
-              console.error('Unknown status:', status)
-              break;
-          }
-          let statusDiv = $("<div/>", { class: "label label-table " + labelClass }).text(status).appendTo(statusTd);
 
           // Actions
           var actionsTd = $("<td/>").appendTo(row);
-
-          // Download
-          if (status === 'Completed' && item.requestStatus.providerResponse.hasOwnProperty('resultsUrl')) {
-            var downloadIcon = $("<i/>", { class: "fas fa-download col-2 text-success", style: "font-size:20px" }).appendTo(actionsTd);
-            downloadIcon.on('click', async (e) => {
-              window.open(item.requestStatus.providerResponse.resultsUrl, '_blank');
-            });
-          }
 
           // Delete
           var deleteIcon = $("<i/>", { class: "fas fa-trash-alt text-danger col-2", style: "font-size:20px" }).appendTo(actionsTd);
@@ -819,8 +896,12 @@
           });
         });
       } catch (error) {
-        console.error(error);
-        showMessage(error, true);
+        if (error.hasOwnProperty('responseJSON') && error.responseJSON.hasOwnProperty('message') && error.responseJSON.message === 'The incoming token has expired') {
+          await verifyToken();
+          loadCards();
+        }
+        console.error(error.hasOwnProperty('responseJSON') ? error.responseJSON.message : error);
+        showMessage(error.hasOwnProperty('responseJSON') ? error.responseJSON.message : error, true);
       }
     }
 
