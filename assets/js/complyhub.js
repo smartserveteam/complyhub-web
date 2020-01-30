@@ -853,33 +853,34 @@ async function deleteRequest(id) {
     });
 }
 
-async function createRequests(name, requestType, connectors, configurations, parameters) {
-  console.log(`Creating requests: name: ${name}, requestType: ${requestType}, connectors: ${connectors}, configurations: ${configurations}, parameters: ${parameters}`);
-
-  // Create a request for each configuration
-  for await (let configuration of configurations) {
-    let connector = connectors.find(c => c.id === configuration.connectorId);
-    await createRequest(name, requestType, connector, configuration, parameters);
+async function createRequests(name, requestType, connectors, subjects) {
+  // Create a request for each subject
+  for await (let subject of subjects) {
+    console.log('Current Subject:', subject);
+    let connector = connectors.find(c => c.id === subject.configuration.connectorId);
+    console.log('Current connector:', connector);
+    await createRequest(name, requestType, connector, subject.configuration, subject);
   }
   return true;
 }
 
-async function createRequest(name, requestType, connector, configuration, parameters) {
+async function createRequest(name, requestType, connector, configuration, subjectData) {
 
   // Build base data object
   var data = {
     requestName: name,
+    requestType: requestType,
     connector: connector,
     configuration: configuration,
-    requestType: requestType,
     subject: {
     }
   };
 
   // Add subject parameters
-  $.each(parameters, (i, parameter) => {
-    data.subject[parameter.name] = parameter.value;
-  });
+  console.log('Subject Data:', subjectData);
+  data.subject[subjectData.name] = subjectData.value;
+
+  //TODO subjectDataItems is {undefined:undefined} ????????
 
   console.log('Creating request:', data);
 

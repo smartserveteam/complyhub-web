@@ -391,7 +391,7 @@
   <script>
 
     var connectorConfigs = [], selectedSubjectFields = [], configurations;
-    var subject = {}, requestType, subjectsToProcess = [], selectedConnectors = [], selectedConfigurations = [];
+    var subjectData = {}, requestType, subjectsToProcess = [], selectedConnectors = [], selectedConfigurations = [];
 
     var parametersArray = [
       {
@@ -541,7 +541,7 @@
         switch (newIndex) {
           case 2:
             // Save subject
-            subject = $.extend({}, {
+            subjectData = $.extend({}, {
               id: $("#id").val() || undefined,
               name: $("#name").val() || undefined,
               phoneNumber: $("#phoneNumber").val() || undefined,
@@ -583,7 +583,7 @@
             }
             console.log('Selected Configurations:', selectedConfigurations);
 
-            let results = await searchSubjects(selectedConnectors, selectedConfigurations, subject);
+            let results = await searchSubjects(selectedConnectors, selectedConfigurations, subjectData);
 
             for (let result of results) {
               console.log('Result:', result);
@@ -625,13 +625,13 @@
                           subjectsToProcess.push({
                             name: "userId",
                             value: providerResult.userId,
-                            configuration: result.configuration.id
+                            configuration: result.configuration
                           });
                         } else if (providerResult.hasOwnProperty('externalContactId')) {
                           subjectsToProcess.push({
                             name: "externalContactId",
                             value: providerResult.externalContactId,
-                            configuration: result.configuration.id
+                            configuration: result.configuration
                           });
                         }
                       } else {
@@ -684,7 +684,7 @@
                           subjectsToProcess.push({
                             name: "userId",
                             value: providerResult.id,
-                            configuration: result.configuration.id
+                            configuration: result.configuration
                           });
                         }
                       }
@@ -718,7 +718,7 @@
         return form.validate().settings.ignore = ":disabled", form.valid()
       },
       onFinished: function (event, currentIndex) {
-        createRequests("Search:" + JSON.stringify(subject), requestType, selectedConnectors, selectedConfigurations, subjectsToProcess).then((result) => {
+        createRequests("Search:" + JSON.stringify(subjectData), requestType, selectedConnectors, subjectsToProcess).then((result) => {
           console.log('createRequest result:', result);
           $("#editModal").modal('toggle');
         }).catch((error) => {
@@ -821,29 +821,31 @@
             let status, labelClass, statusDiv;
             if (item.requestStatus.error) {
               status = "Error";
-              statusDiv = $("<div/>", { class: "label label-table " + labelClass }).text(status).appendTo(statusTd);
-              $("<small/>", {}).text(item.requestStatus.errorMessage)
+              statusDiv = $("<div/>", { class: "label label-table label-danger" }).text(status).appendTo(statusTd);
+              console.log('Error message:', item.requestStatus.providerResponse.message);
+              let messageDiv = $("<div/>", { class: "text-dark" }).appendTo(statusTd);
+              $("<small/>", { class: "text-dark" }).text(item.requestStatus.providerResponse.message).appendTo(messageDiv);
             } else {
               status = item.requestStatus.complete ? "Completed" : "In Progress";
+              switch (status) {
+                case "In Progress":
+                  labelClass = "label-warning";
+                  break;
+                case "Completed":
+                  labelClass = "label-success";
+                  break;
+                case "Not Started":
+                  labelClass = "label-info";
+                  break;
+                case "Error":
+                  labelClass = "label-danger";
+                  break;
+                default:
+                  console.error('Unknown status:', status)
+                  break;
+              }
+              statusDiv = $("<div/>", { class: "label label-table " + labelClass }).text(status).appendTo(statusTd);
             }
-            switch (status) {
-              case "In Progress":
-                labelClass = "label-warning";
-                break;
-              case "Completed":
-                labelClass = "label-success";
-                break;
-              case "Not Started":
-                labelClass = "label-info";
-                break;
-              case "Error":
-                labelClass = "label-danger";
-                break;
-              default:
-                console.error('Unknown status:', status)
-                break;
-            }
-            statusDiv = $("<div/>", { class: "label label-table " + labelClass }).text(status).appendTo(statusTd);
 
             // Download
             if (item.requestStatus.complete && item.requestStatus.providerResponse.hasOwnProperty('resultsUrl')) {
