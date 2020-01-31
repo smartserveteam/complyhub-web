@@ -184,11 +184,11 @@
               <table class="table table-striped">
                 <thead>
                   <tr>
-                    <th>Name</th>
-                    <th>Configurations</th>
-                    <th>Last Updated</th>
+                    <th class="text-center">Name</th>
+                    <th class="text-center">Configurations</th>
+                    <th class="text-center">Last Updated</th>
                     <th class="text-center">Status</th>
-                    <th>Actions</th>
+                    <th class="text-center">Actions</th>
                   </tr>
                 </thead>
                 <tbody id="requests">
@@ -258,13 +258,6 @@
                                 <a href="#" class="btn btn-info mt-3" id="update-select-button">Select</a>
                               </div>
                             </div>
-                            <!-- <div>
-                              <select data-actions-box="true" id="requestTypeSelect" data-container="body">
-                                <option value="Delete">Delete</option>
-                                <option value="Export">Export</option>
-                                <option value="Update">Update</option>
-                              </select>
-                            </div> -->
                           </div>
                         </section>
 
@@ -801,16 +794,17 @@
           let row = $("<tr/>", {}).appendTo("#requests");
 
           // Name
-          let nameTd = $("<td/>", {}).appendTo(row);
+          let nameTd = $("<td/>", { class: "text-center" }).appendTo(row);
           let name = $("<label/>", { class: "link", href: "javascript:void(0)" }).text(item.requestName).appendTo(nameTd);
 
           // Connectors & Configurations
-          let configurationTd = $("<td/>", {}).appendTo(row);
+          let configurationTd = $("<td/>", { class: "text-center" }).appendTo(row);
           let connector = await getConnector(item.configuration.connectorId);
           $("<img/>", { src: connector.logoUrl, style: 'max-height:30px;max-width:30px' }).appendTo(configurationTd);
+          $("<p/>", {}).text(item.configuration.configurationName).appendTo(configurationTd);
 
           // Last updated
-          let dateTd = $("<td/>", {}).appendTo(row);
+          let dateTd = $("<td/>", { class: "text-center" }).appendTo(row);
           $("<i/>", { class: "fa fa-clock-o" }).appendTo(dateTd);
           dateTd.text(moment(item.updatedAt).fromNow());
 
@@ -860,7 +854,7 @@
           }
 
           // Actions
-          var actionsTd = $("<td/>").appendTo(row);
+          var actionsTd = $("<td/>", { class: "text-center" }).appendTo(row);
 
           // Delete
           var deleteIcon = $("<i/>", { class: "fas fa-trash-alt text-danger col-2", style: "font-size:20px" }).appendTo(actionsTd);
@@ -886,14 +880,7 @@
               },
               allowOutsideClick: () => !Swall.isLoading()
             }).then((result) => {
-              if (result.value) {
-                Swal.fire(
-                  'Deleted!',
-                  'Your item has been deleted.',
-                  'success'
-                )
-                loadCards();
-              }
+              loadCards();
             });
           });
         });
