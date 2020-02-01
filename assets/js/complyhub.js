@@ -24,14 +24,26 @@ function showSpinner() {
   $("#fadeMe").show();
 }
 
+function showModalSpinner() {
+  $("#fadeMeModal").addClass("fadeMe");
+  $("#fadeMeModal").show();
+}
+
 function showSpinnerOnControl(controlName) {
   console.log('Show spinner for control:', controlName);
-  $("#" + controlName + " #overlay-div").show();
+  $("#fadeMe").addClass("fadeMe");
+  $("#fadeMe").show();
+  //$("#" + controlName + " #overlay-div").show();
 }
 
 function hideSpinner(div) {
   $("#fadeMe").removeClass("fadeMe");
   $("#fadeMe").hide();
+}
+
+function hideModalSpinner() {
+  $("#fadeMeModal").removeClass("fadeMe");
+  $("#fadeMeModal").hide();
 }
 
 function hideControlSpinner(controlName) {
@@ -917,6 +929,8 @@ async function createRequest(name, requestType, connector, configuration, subjec
 
 async function searchSubjects(connectors, configurations, subject) {
 
+  showModalSpinner();
+
   return await $.ajax({
     url: `${apiPath}/requests/search`,
     method: "POST",
@@ -946,6 +960,7 @@ async function searchSubjects(connectors, configurations, subject) {
     })
     .always(() => {
       console.log("searchSubjects completed");
+      hideModalSpinner();
     });
 }
 

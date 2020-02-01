@@ -204,6 +204,13 @@
       <!-- ============================================================== -->
       <!-- Edit Modal -->
       <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <!-- ============================================================== -->
+        <!-- Spinner                                                        -->
+        <!-- ============================================================== -->
+        <div id="fadeMeModal" style="display:none">
+          <div class="spinner"></div>
+          <div class="spinner-text" id="spinner-text"></div>
+        </div>
         <div class="modal-dialog modal-xl" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -305,7 +312,7 @@
                         <!-- Step 4 -->
                         <h6>Search Results</h6>
                         <section>
-                          <div class="row">
+                          <div class="row" id="resultsDiv">
                             <div class="accordion text-center" id="results" style="margin: 0 auto;">
                             </div>
                           </div>
@@ -315,7 +322,7 @@
                   </div>
                 </div>
               </div>
-            </div>>
+            </div>
           </div>
         </div>
       </div>
@@ -545,12 +552,19 @@
             configurations = await getConfigurations();
 
             // Get connectors
-            $("#connectors").empty();
-            connectors = await getConnectors();
-            connectorConfigs = [];
-            $.each(connectors, (i, connector) => {
-              createConnectorCard(connector);
-            });
+            showModalSpinner();
+            try {
+              $("#connectors").empty();
+              connectors = await getConnectors();
+              connectorConfigs = [];
+              $.each(connectors, (i, connector) => {
+                createConnectorCard(connector);
+              });
+            } catch (error) {
+              console.error('Error while loading connectors:', error);
+            } finally {
+              hideModalSpinner();
+            }
 
             break;
           case 3:
