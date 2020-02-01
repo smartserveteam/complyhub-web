@@ -970,6 +970,22 @@
           showMessage(error.responseJSON.message, true);
         })
       });
+      $('.validation-wizard').steps("reset");
+
+      // Reset vars
+      connectorConfigs = [];
+      selectedSubjectFields = [];
+      configurations = [];
+      subjectData = {};
+      requestType = "";
+      subjectsToProcess = [];
+      selectedConnectors = [];
+      selectedConfigurations = [];
+
+      // Reset request type buttons on step #1
+      $("#delete-section").removeClass('selected-card');
+      $("#export-section").removeClass('selected-card');
+      $("#update-section").removeClass('selected-card');
     }
 
     $('#editModal').on('hidden.bs.modal', async () => {

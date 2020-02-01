@@ -1327,6 +1327,22 @@ $.fn.steps = function (method)
     }
 };
 
+// https://github.com/rstaib/jquery-steps/issues/266
+$.fn.steps.reset = function () {
+
+    var wizard = this,
+        options = getOptions(this),
+        state = getState(this);
+    if (state && state.currentIndex > 0) {
+        goToStep(wizard, options, state, 0);
+        for (i = 1; i < state.stepCount; i++) {
+            var stepAnchor = getStepAnchor(wizard, i);
+            stepAnchor.parent().removeClass("done")._enableAria(false);
+        }
+    }
+
+};
+
 /**
  * Adds a new step.
  *
