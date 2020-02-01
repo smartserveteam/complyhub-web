@@ -547,13 +547,16 @@
             // Get connectors
             $("#connectors").empty();
             connectors = await getConnectors();
+            connectorConfigs = [];
             $.each(connectors, (i, connector) => {
               createConnectorCard(connector);
             });
 
             break;
           case 3:
-            // Show results
+            // Clear previous results
+            $("#results").empty();
+            subjectsToProcess = [];
 
             // Connectors
             const connectorIds = Object.keys(connectorConfigs);
@@ -565,12 +568,14 @@
               }
             }
 
+            selectedConnectors = [];
             for await (let connectorId of connectorIds) {
               selectedConnectors.push(await getConnector(connectorId));
             }
             console.log('Selected Connectors:', selectedConnectors);
 
             // Configurations
+            selectedConfigurations = [];
             for await (let configurationId of configurationIds) {
               selectedConfigurations.push(await getConfiguration(configurationId));
             }
@@ -911,6 +916,7 @@
       }
       $(".selectpicker").selectpicker('refresh');
       configsSelect.on('change', function (e) {
+        console.log(configsSelect.val());
         connectorConfigs[connector.id] = configsSelect.val();
       });
     }
